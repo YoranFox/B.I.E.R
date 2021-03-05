@@ -27,7 +27,6 @@ You also need a working webcam for testing.
 
 ### Client App
 
-[Angular](https://angular.io/)
-App is created in Angular.
 
-``
+App is created in [Angular](https://angular.io/).
+
