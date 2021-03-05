@@ -15,12 +15,12 @@ This program is created in python 2.7, so make sure you have a python 2.7 enviro
 
 Modules installed via pip:
 
-``
+```
 pip install numpy
 pip install qrcode
 pip install qrtools
 pip install opencv-python (conda install opencv)
-``
+```
 
 You also need a working webcam for testing.
 
