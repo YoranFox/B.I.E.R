@@ -4,7 +4,11 @@ import cv2.aruco as aruco
 import numpy as np
 import math
 import qrcode
-from qrtools.qrtools import QR
+import sys
+if sys.version_info[0] == 3:
+    from qrtools.qrtools import QR
+else:
+    from qrtools import QR
 import itertools
 
 calc_refresh_rate = 1
