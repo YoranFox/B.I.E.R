@@ -1,0 +1,65 @@
+@import '../../styles.scss';
+
+#create-icon{
+    font-size: 100px;
+    width: 100px;
+    padding-top: 15vh;
+    padding-bottom: 25vh;
+}
+
+
+::ng-deep .mat-focused .mat-form-field-label {
+    /*change color of label*/
+    color: $font-color-primary !important;
+   }
+  
+   ::ng-deep.mat-form-field-underline {
+    /*change color of underline*/
+    background-color: $primary-color !important;
+  } 
+  
+  ::ng-deep.mat-form-field-ripple {
+   /*change color of underline when focused*/
+   background-color: $font-color-primary!important;;
+  }
+
+
+  .button{
+      height: 40px;
+      color: $font-color-primary;
+      border: solid $font-color-primary 1px;
+      background: none;
+      border-radius: 15px;
+  }
+
+  .button:hover:not([disabled]){
+    background-color: rgba($primary-color, .1)
+  }
+
+  #bier-logo{
+    width:  100%;
+  }
+
+  .logo-container{
+    height: 40vh;
+    font-size: 16vw;
+    font-weight: 100;
+    line-height: 16vw;
+    position: relative;
+  }
+
+  
+.small-text{
+  line-height: 5vw;
+  font-size: 5vw;
+  margin-bottom: 0;
+  transform: translateX(-13vw);
+}
+
+
+.text-container{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%)
+}
