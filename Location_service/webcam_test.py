@@ -4,7 +4,7 @@ import cv2.aruco as aruco
 import numpy as np
 import math
 import qrcode
-from qrtools import QR
+from qrtools.qrtools import QR
 import itertools
 
 calc_refresh_rate = 1
@@ -117,13 +117,13 @@ def do_calculations(frame):
             else:
                 return None, None
         else:
-            cv2.imwrite('testing_qr.png', image)
-            qr = QR()
-            qr.decode('testing_qr.png')
-            if(qr.data != 'NULL'):
-                return qr.data, 'qr'
-            else:
-                return None, None
+            # cv2.imwrite('testing_qr.png', image)
+            # qr = QR()
+            # qr.decode('testing_qr.png')
+            # if(qr.data != 'NULL'):
+            #     return qr.data, 'qr'
+            # else:
+            return None, None
         # barcodes = pyzbar.decode(image)
         # barcode_info = barcodes[0].data.decode('utf-8')
         # return barcode_info
