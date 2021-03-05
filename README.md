@@ -12,6 +12,7 @@ Here the steps required to create the development environment are explained.
 ### Vision module
 
 This setup is for linux environment compatible with python 2 and 3.
+It is possible to create one for windows but a lot more steps are required and only possible in python 2.
 
 Modules installed via pip:
 
