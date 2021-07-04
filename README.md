@@ -9,7 +9,7 @@ B.I.E.R is a project to help further develop the automatization of home life. Wi
 
 Here the steps required to create the development environment are explained.
 
-### Vision module
+### Packages
 
 This setup is for linux environment compatible with python 2 and 3.
 It is possible to create one for windows but a lot more steps are required and only possible in python 2.
@@ -25,6 +25,16 @@ pip install zbar-py
 ```
 
 You also need a working webcam for testing, it will auto detect of one is active.
+
+### Setup windows
+
+Make sure you have python 3.9 and python 2.7 installed.
+version 3.9: : https://www.python.org/downloads/
+version 2.7: https://www.python.org/downloads/release/python-2718/
+
+```
+py -2.7 install_packages.py
+```
 
 
 ### Client App
