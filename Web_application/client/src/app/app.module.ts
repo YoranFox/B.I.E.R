@@ -8,7 +8,6 @@ import { SpaceBuilderComponent } from './space-builder/space-builder.component';
 import { RequestBeverageComponent } from './request-beverage/request-beverage.component';
 import { SpaceComponent } from './space/space.component';
 import { LoginComponent } from './login/login.component';
-import { EncriptDecriptService } from './shared-services/encript-decript.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { EditComponent } from './edit/edit.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -21,6 +20,7 @@ import { ApiModule } from './_sdk/api.module';
 import { environment } from 'src/environments/environment';
 import { CreateSpaceComponent } from './edit/create-space/create-space.component';
 import { HeaderService } from './shared/header/header.service';
+import { LiveCamComponent } from './live-cam/live-cam.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +34,8 @@ import { HeaderService } from './shared/header/header.service';
     ChangePasswordComponent,
     FooterComponent,
     HeaderComponent,
-    CreateSpaceComponent
+    CreateSpaceComponent,
+    LiveCamComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +47,7 @@ import { HeaderService } from './shared/header/header.service';
     HttpClientModule,
     ApiModule.forRoot({rootUrl: environment.apiRootUrl})
   ],
-  providers: [EncriptDecriptService, HeaderService],
+  providers: [HeaderService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
