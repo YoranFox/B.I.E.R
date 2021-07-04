@@ -29,8 +29,8 @@ You also need a working webcam for testing, it will auto detect of one is active
 ### Setup windows
 
 Make sure you have python 3.9 and python 2.7 installed.
-version 3.9: : https://www.python.org/downloads/
-version 2.7: https://www.python.org/downloads/release/python-2718/
+- version 3.9: : https://www.python.org/downloads/
+- version 2.7: https://www.python.org/downloads/release/python-2718/
 
 ```
 py -2.7 install_packages.py
