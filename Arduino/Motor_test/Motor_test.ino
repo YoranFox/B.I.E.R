@@ -1,3 +1,7 @@
+#include "Motor_controll.h"
+#include <stdio.h>
+#include <Arduino.h>
+
 int HARDFAULT = 0;
 
 //front left
@@ -20,7 +24,15 @@ const int MOTOR4PIN1 = 8;
 const int MOTOR4PIN2 = 9; 
 const int MOTOR4SPEEDPIN = 13;
 
+robot r = {0.06, 0.25, 0.15, //radius, hor_dist, vert_dist, 
+            0, 0, 100, // robot speed, robot angle
+            {1, MOTOR1PIN1, MOTOR1PIN2, MOTOR1SPEEDPIN, 0, Stop},//m1
+            {2, MOTOR2PIN1, MOTOR2PIN2, MOTOR2SPEEDPIN, 0, Stop},//m2
+            {3, MOTOR3PIN1, MOTOR3PIN2, MOTOR3SPEEDPIN, 0, Stop},//m3
+            {4, MOTOR4PIN1, MOTOR4PIN2, MOTOR4SPEEDPIN, 0, Stop}//m4
+            };
 
+robot *rp = &r;
 
 void setup() {
   // put your setup code here, to run once:
@@ -37,30 +49,15 @@ void setup() {
   pinMode(MOTOR4PIN2, OUTPUT);
   pinMode(MOTOR4SPEEDPIN, OUTPUT);  
 
-
+//begin serial comms
   Serial.begin(9600);
+
 }
 
 void loop() {
-  Serial.println("running loop");
-  // put your main code here, to run repeatedly:   
+int speed = 50;
+int degree = 45;
 
-  //Controlling speed (0 = off and 255 = max speed):
-  analogWrite(9, 55); //ENA pin
-  analogWrite(10, 55); //ENB pin
-
-  //Controlling spin direction of motors:
-  digitalWrite(motor1pin1, HIGH);
-  digitalWrite(motor1pin2, LOW);
-
-  digitalWrite(motor2pin1, HIGH);
-  digitalWrite(motor2pin2, LOW);
-  delay(10000);
-
-  digitalWrite(motor1pin1, LOW);
-  digitalWrite(motor1pin2, HIGH);
-
-  digitalWrite(motor2pin1, LOW);
-  digitalWrite(motor2pin2, HIGH);
-  delay(10000);
+Inverse_kinematics(speed, degree, r);
+delay(10000);
 }
