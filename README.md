@@ -5,7 +5,7 @@ Beverage Infrastructure Extensible Robot
 
 B.I.E.R is a project to help further develop the automatization of home life. With the end goal being a self reliable robot with minimal setup required.
 
-## Setup
+## Setup Development
 
 Here the steps required to create the development environment are explained.
 
@@ -21,12 +21,14 @@ pip install numpy
 pip install qrcode
 pip install qrtools
 pip install opencv-contrib-python (conda install opencv)
-pip install zbar-py
+pip install zbar
 ```
 
 You also need a working webcam for testing, it will auto detect of one is active.
 
 ### Setup windows
+
+#### BRAIN
 
 Make sure you have python 3.9 and python 2.7 installed.
 - version 3.9: : https://www.python.org/downloads/
@@ -36,9 +38,19 @@ Make sure you have python 3.9 and python 2.7 installed.
 py -2.7 install_packages.py
 ```
 
+#### API
 
-### Client App
+Api is created with Express node js.
 
+Make sure you have Node Js installed
+
+Navigate to Api folder and run the following command in your terminal
+
+```
+npm install
+```
+
+#### Client App
 
 App is created in [Angular](https://angular.io/).
 
