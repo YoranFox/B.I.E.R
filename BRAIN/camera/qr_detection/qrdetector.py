@@ -7,7 +7,6 @@ import itertools
 
 from camera.qr_detection.detection_strategies.detect_aruco import DetectAruco
 
-
 class QrDetector:
 
     def __init__(self, detection_strategy='aruco', tunnel_factor=1, tunnel_frames=10):
@@ -21,9 +20,6 @@ class QrDetector:
 
     # Check a frame for qr code
     def check(self, frame):
-
-        pic_height, pic_width, channels = frame.shape
-
         
         found, rejected = self.strategy.detect(frame)
         cached = self.cached_solutions
@@ -60,7 +56,7 @@ class QrDetector:
         else:
             return [cache[0], 1]
 
-
+    # TODO create the tunnel logic if we want this?
     def is_tunnel(self, solution, cached):
         return False
 
