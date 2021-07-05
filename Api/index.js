@@ -33,7 +33,6 @@ router.get('/commands', function(req, res) {
     res.json(
         {
             commands: {
-                test: 'test'
             }
     });
 });
