@@ -2,7 +2,6 @@ import { tokenize } from '@angular/compiler/src/ml_parser/lexer';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
-import { EncriptDecriptService } from '../shared-services/encript-decript.service';
 import { ApiService } from '../_sdk/services';
 
 
@@ -11,7 +10,7 @@ import { ApiService } from '../_sdk/services';
 })
 export class LoginService {
 
-  constructor(private authService: AuthService, private router: Router, private encriptDecriptService: EncriptDecriptService, private apiService: ApiService) { }
+  constructor(private authService: AuthService, private router: Router, private apiService: ApiService) { }
 
   async login(info: any){
     const loginInfo = await this.apiService.passwordsControllerLogin({body: info}).toPromise()

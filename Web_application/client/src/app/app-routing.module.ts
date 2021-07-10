@@ -8,6 +8,7 @@ import {
 } from './auth/auth-guard.service';
 import { ChangePasswordComponent } from './edit/change-password/change-password.component';
 import { CreateSpaceComponent } from './edit/create-space/create-space.component';
+import { LiveCamComponent } from './live-cam/live-cam.component';
 
 const routes: Routes = [
   {path: '', redirectTo:'home', pathMatch: 'full'},
@@ -33,6 +34,12 @@ const routes: Routes = [
   {
     path: 'edit/create-space', 
     component: CreateSpaceComponent,
+    canActivate: [AuthGuard],
+    data: { roles: ['admin'] }
+  },
+  {
+    path: 'live', 
+    component: LiveCamComponent,
     canActivate: [AuthGuard],
     data: { roles: ['admin'] }
   },

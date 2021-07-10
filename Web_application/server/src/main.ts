@@ -14,6 +14,24 @@ async function bootstrap() {
       'content-disposition'
     ]
   })
+  const NodeMediaServer = require('node-media-server');
+ 
+  const mediaConfig = {
+    rtmp: {
+      port: 1935,
+      chunk_size: 60000,
+      gop_cache: true,
+      ping: 30,
+      ping_timeout: 60
+    },
+    http: {
+      port: 8000,
+      allow_origin: '*'
+    }
+  };
+ 
+  var nms = new NodeMediaServer(mediaConfig)
+  
 
   const config = new DocumentBuilder()
     .setTitle(pjson.name)
@@ -28,6 +46,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, document);
 
+  nms.run();
   await app.listen(process.env.PORT, '192.168.1.9');
 }
 bootstrap();
