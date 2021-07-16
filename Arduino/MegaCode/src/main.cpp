@@ -1,10 +1,11 @@
 #include <Arduino.h>
 #include "Magneto_HMC5883.h"
+#include "robot.h"
 
 const int ledPin =  LED_BUILTIN;// the number of the LED pin
 int ledState = LOW;             // ledState used to set the LED
 
-bool check_tick_timing(long interval) {
+bool check_tick_timing(unsigned long interval) {
     static unsigned long previousMillis = 0;
     unsigned long currentMillis = millis();
 
@@ -25,13 +26,13 @@ bool check_tick_timing(long interval) {
     return false;
 }
 
-
 void setup(void)
 {
     //build in led
     pinMode(ledPin, OUTPUT);
     Serial.begin(115200);
     Magneto_HMC5883_init();
+    robot_init();
 
 }
 

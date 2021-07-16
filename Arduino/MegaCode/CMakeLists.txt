@@ -30,4 +30,4 @@ add_custom_target(
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-add_executable(Z_DUMMY_TARGET ${SRC_LIST} src/Magneto_HMC5883.cpp src/Magneto_HMC5883.h)
+add_executable(Z_DUMMY_TARGET ${SRC_LIST} src/Magneto_HMC5883.cpp include/Magneto_HMC5883.h include/pin_def.h src/robot.cpp include/robot.h)
