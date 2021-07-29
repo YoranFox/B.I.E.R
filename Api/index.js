@@ -1,3 +1,5 @@
+var secret = require('./secret')
+
 var express = require('express');        
 var app = express();                 
 var bodyParser = require('body-parser');
@@ -5,6 +7,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 var port = process.env.PORT || 8080;  
 const router = express.Router();
+
 
 let demoLogger = (req, res, next) => {
     let current_datetime = new Date();
@@ -29,7 +32,19 @@ let demoLogger = (req, res, next) => {
   };
 
 
+  let authMiddelware = (req, res, next) => {
+    console.log(req);
+    // set the user if auth is present
+    if(req.auth) {
+    }
+    console.log(secret)
+
+    next();
+  }
+
+
   router.use(demoLogger)
+  router.use(authMiddelware)
 
 
 // Status of the API

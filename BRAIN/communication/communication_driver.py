@@ -19,7 +19,7 @@ def start_api_process(conn):
 
             # check api for commands every 5 second
             if(last_command_check < time.time() * 1000 - 5000):
-                r = requests.get('http://' + url + ':' + port + '/api/commands')
+                r = requests.get('http://' + url + ':' + port + '/api/commands', headers={'Authorization': 'TOK:<MY_TOKEN>'})
                 data = json.loads(r.text)
                 if(len(data['commands']) > 0):
                     for key, value in data['commands'].iteritems():
@@ -36,7 +36,7 @@ def start_api_process(conn):
                 url = data[1]
                 port = data[2]
 
-                r = requests.get('http://' + url + ':' + port + '/api/status')
+                r = requests.get('http://' + url + ':' + port + '/api/status', headers={'Authorization': 'TOK:<MY_TOKEN>'})
                 data = json.loads(r.text)
                 if(data['status'] == 'ONLINE'):
                     api_active = True
