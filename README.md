@@ -54,3 +54,7 @@ npm install
 
 App is created in [Angular](https://angular.io/).
 
+In client folder
+```
+npm install
+```
