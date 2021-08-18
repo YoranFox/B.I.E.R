@@ -1,0 +1,27 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <h2>WELCOME TO PROJECT B.I.E.R.</h2>
+            Please select user,
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <input class="form-control" placeholder="Name" [(ngModel)]="search"/>
+
+            <div class="row" *ngFor="let user of $users | async">
+                <div class="col-4">
+                    <img *ngIf="user.picture" [src]="user.picture"/>
+                    <img *ngIf="!user.picture" src="../../assets/stock-profile.jpg"/>
+                </div>
+                <div class="col-8">
+                    {{ user.name }}
+                </div>
+            </div>
+
+            <button class="btn btn-primary">New user</button>
+        </div>
+    </div>
+
+</div>
