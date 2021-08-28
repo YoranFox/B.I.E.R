@@ -31,10 +31,15 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss",
+              "src/scss/styles.scss",
               "./node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/scss"
+              ]
+          }
           },
           "configurations": {
             "production": {
@@ -112,7 +117,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/scss/styles.scss"
             ],
             "scripts": []
           }

@@ -1,0 +1,40 @@
+<div class="container-fluid full-height position-relative" id="welcome-page">
+    <div class="top-part">
+        <div class="row mb-5">
+            <div class="col d-flex justify-content-center">
+                <img src="../../assets/logo.svg"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col d-flex justify-content-center">
+                <div class="text-container">
+                    <h2 class="mb-3">Hi there,</h2>
+                    <h5>Welcome to <span class="project-title">Project B.I.E.R</span></h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom-part">
+        <div class="row mb-5">
+            <div class="col  d-flex justify-content-center">
+                <div class="pin-container  d-flex justify-content-between">
+                    <input maxlength="1" [(ngModel)]="code[0]" (focus)="selectAllContent($event)" (keyup)="onDigitInput($event)" class="form-control text-center" type="password"/>
+
+                    <input maxlength="1" [(ngModel)]="code[1]" (focus)="selectAllContent($event)" (keyup)="onDigitInput($event)" class="form-control text-center" type="password"/>
+
+                    <input maxlength="1" [(ngModel)]="code[2]" (focus)="selectAllContent($event)" (keyup)="onDigitInput($event)" class="form-control text-center" type="password"/>
+
+                    <input maxlength="1" [(ngModel)]="code[3]" (focus)="selectAllContent($event)" (keyup)="onDigitInput($event)" class="form-control text-center" type="password"/>
+
+                    <input maxlength="1" [(ngModel)]="code[4]" (focus)="selectAllContent($event)" (keyup)="onDigitInput($event)" class="form-control text-center" type="password"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <button [disabled]="loading || code.length !== 5" id="login-button" class="btn btn-primary mb-2" (click)="onClickLogin()">Gain access</button>
+                <span *ngIf="invalidCred" class="error d-block">Invalid code, please try again</span>
+            </div>
+        </div>
+    </div>
+</div>
