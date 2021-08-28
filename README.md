@@ -19,6 +19,14 @@ Make sure you have python 3.9 and python 2.7 installed.
 py -2.7 install_packages.py
 ```
 
+#### MySQL
+
+Make sure u have installed mysql (workbench)
+- windows https://dev.mysql.com/downloads/installer/
+- linux (No clue, have to figure this one out yourself)
+
+Create a db called: bierDb
+
 #### API
 
 Api is created with the framework Nest.js [Nest.js](https://nestjs.com/).
