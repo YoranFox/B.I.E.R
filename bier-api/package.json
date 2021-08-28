@@ -11,7 +11,8 @@
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
-    "start:dev": "nest start --watch",
+    "start:dev-windows": "npm run build:sdk-windows && nest start --watch",
+    "start:dev-linux": "npm run build:sdk-linux && nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
@@ -20,7 +21,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "build:sdk": "nest build && node .\\dist\\swagger-json.js > .\\.openapi.json && if exist .\\..\\bier-app\\src\\app\\_sdk (rmdir /s /q .\\..\\bier-app\\src\\app\\_sdk) && npm run ng-openapi-gen && del .\\.openapi.json"
+    "build:sdk-windows": "nest build && node .\\dist\\swagger-json.js > .\\.openapi.json && if exist .\\..\\bier-app\\src\\app\\_sdk (rmdir /s /q .\\..\\bier-app\\src\\app\\_sdk) && npm run ng-openapi-gen && del .\\.openapi.json"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
