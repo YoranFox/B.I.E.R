@@ -38,24 +38,30 @@ py -2.7 install_packages.py
 
 #### API
 
-Api is created with Express node js.
+Api is created with the framework Nest.js https://nestjs.com/.
 
-Make sure you have Node Js installed
+Make sure you have Node Js installed with npm
+https://nodejs.org/en/download/
+
+Install the CLI for nestjs
+```
+npm i -g @nestjs/cli
+```
 
 Navigate to Api folder and run the following command in your terminal
-
 ```
 npm install
 ```
 
-##### windows
+##### How to run the api
+- windows
 ```
-npm run start:sdk-windows
+npm run start:dev-windows
 ```
 
-##### linux
+- linux
 ```
-npm run start:sdk-linux
+npm run start:dev-linux
 ```
 
 #### Client App
