@@ -26,8 +26,6 @@ pip install zbar
 
 You also need a working webcam for testing, it will auto detect of one is active.
 
-### Setup windows
-
 #### BRAIN
 
 Make sure you have python 3.9 and python 2.7 installed.
@@ -50,6 +48,16 @@ Navigate to Api folder and run the following command in your terminal
 npm install
 ```
 
+##### windows
+```
+npm run start:sdk-windows
+```
+
+##### linux
+```
+npm run start:sdk-linux
+```
+
 #### Client App
 
 App is created in [Angular](https://angular.io/).
@@ -58,3 +66,7 @@ In client folder
 ```
 npm install
 ```
+
+### Setup linux
+
+
