@@ -7,24 +7,7 @@ B.I.E.R is a project to help further develop the automatization of home life. Wi
 
 ## Setup Development
 
-Here the steps required to create the development environment are explained.
-
-### Packages
-
-This setup is for linux environment compatible with python 2 and 3.
-It is possible to create one for windows but a lot more steps are required and only possible in python 2.
-
-Modules installed via pip:
-
-```
-pip install numpy
-pip install qrcode
-pip install qrtools
-pip install opencv-contrib-python (conda install opencv)
-pip install zbar
-```
-
-You also need a working webcam for testing, it will auto detect of one is active.
+Here are the steps required to create and run the development environment explained.
 
 #### BRAIN
 
@@ -38,7 +21,7 @@ py -2.7 install_packages.py
 
 #### API
 
-Api is created with the framework Nest.js https://nestjs.com/.
+Api is created with the framework Nest.js [Nest.js](https://nestjs.com/).
 
 Make sure you have Node Js installed with npm
 https://nodejs.org/en/download/
@@ -68,11 +51,13 @@ npm run start:dev-linux
 
 App is created in [Angular](https://angular.io/).
 
-In client folder
+In bier-app folder
 ```
 npm install
 ```
 
-### Setup linux
-
-
+##### How to run the app
+In bier-app folder 
+```
+npm run start:dev
+```
