@@ -5,6 +5,6 @@ export class LoginResponseDto {
     @Expose()
     sessionId: string;
     @Expose()
-    jwt: String;
+    jwt: string;
 
 }

@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { from, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { User, UserProfileDto } from '../_sdk/models';
+import { UsersApiService } from '../_sdk/services';
 
 @Component({
   selector: 'app-welcome',
@@ -8,23 +11,44 @@ import { from, Observable } from 'rxjs';
 })
 export class WelcomeComponent implements OnInit {
 
-  public $users: Observable<any[]> = new Observable();
-  public search: string | undefined;
+  public users: UserProfileDto[] = [];
+  public filteredUsers: UserProfileDto[] = [];
+  public search: string = '';
+  public loading = false;
 
-  constructor() { }
+  constructor(private userApi: UsersApiService) { }
 
   ngOnInit(): void {
     this.fetchUsers();
   }
 
 
-  fetchUsers() {
-    this.$users = from(this.mockUsers());
+  async fetchUsers() {
+    this.loading = true;
+    try {
+      this.users = await this.userApi.usersControllerFindAll().toPromise();
+
+
+    }
+    catch(err) {
+      console.log(err);
+      
+    }
+    this.onFilterChange();
+    this.loading = false;
+  }
+
+  onFilterChange() {
+    console.log(this.search);
+    
+    this.filteredUsers = this.users.filter(user => {
+      return user.name.toLowerCase().includes(this.search.toLowerCase()) 
+    });
   }
 
 
 
-  async mockUsers() {
+  mockUsers() {
     return [{name: 'Yoran'}]
   }
 

@@ -1,26 +1,32 @@
-<div class="container-fluid full-height">
+<div class="container-fluid full-height" id="welcome-page">
     <div class="row">
-        <div class="col">
-            <h2>WELCOME TO PROJECT B.I.E.R.</h2>
-            Please select user,
+        <div class="col text-center">
+            <h5 class="mb-5">Please select a user</h5>
+            <input class="text-center form-control mb-2" placeholder="Username" [(ngModel)]="search" (input)="onFilterChange()"/>
+            <div class="users-container">
+                <div class="row" *ngFor="let user of filteredUsers">
+                    <div class="col-4">
+                        <img *ngIf="user.pictureBase64String" [src]="user.pictureBase64String"/>
+                        <img *ngIf="!user.pictureBase64String" src="../../assets/stock-profile.jpg"/>
+                    </div>
+                    <div class="col-8">
+                        {{ user.name }}
+                    </div>
+                </div>
+                <div class="pt-3" *ngIf="filteredUsers.length === 0">
+                    <span  style="opacity: 70%;">No users found</span>
+                </div>
+            </div>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <input class="form-control" placeholder="Name" [(ngModel)]="search"/>
 
-            <div class="row" *ngFor="let user of $users | async">
-                <div class="col-4">
-                    <img *ngIf="user.picture" [src]="user.picture"/>
-                    <img *ngIf="!user.picture" src="../../assets/stock-profile.jpg"/>
-                </div>
-                <div class="col-8">
-                    {{ user.name }}
-                </div>
-            </div>
 
-            <button class="btn btn-primary">New user</button>
+           
+
+            <button [disabled]="filteredUsers.length !== 0" class="">New user</button>
         </div>
     </div>
 

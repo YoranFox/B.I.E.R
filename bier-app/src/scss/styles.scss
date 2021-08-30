@@ -17,3 +17,35 @@ main {
   text-align: center;
   position: relative;
 }
+
+/* Button styles */
+
+button {
+  border: none;
+  border-radius: 40px !important;
+  width: 100%;
+  max-width: 400px;
+  font-size: large;
+  font-weight: 500;
+  padding: 10px 0;
+  transition: all .1s ease-in-out;
+}
+
+button:focus {
+  opacity: 80%;
+  transform: scale(.95);
+  border: none;
+  box-shadow: none;
+}
+
+button:hover {
+  opacity: 80%;
+  box-shadow: none;
+  border: none;
+}
+
+button:disabled {
+  box-shadow: none;
+  opacity: 40%;
+  border: none;
+}

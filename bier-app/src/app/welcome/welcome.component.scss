@@ -1,0 +1,22 @@
+@use 'variables' as *;
+
+.container-fluid {
+    padding: 50px;
+}
+
+#welcome-page {
+    background-color: $middle-blue-green;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    color: $text-color-dark;
+}
+
+button {
+    color: $middle-blue-green;
+    background-color: $button-dark;
+}
+
+.users-container {
+    height: 50vh;
+}
