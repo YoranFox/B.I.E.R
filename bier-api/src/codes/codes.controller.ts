@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Public } from 'src/decorators/public.decorator';
 import { Roles } from 'src/decorators/roles.decorator';
@@ -9,12 +17,13 @@ import { UpdateCodeDto } from './dto/update-code.dto';
 
 @ApiBearerAuth()
 @Roles([UserRole.ADMIN])
-@ApiTags('Codes')
+@ApiTags('CodesApi')
 @Controller('codes')
 export class CodesController {
   constructor(private readonly codesService: CodesService) {}
 
   @Post()
+  @Public()
   create(@Body() createCodeDto: CreateCodeDto) {
     return this.codesService.create(createCodeDto);
   }

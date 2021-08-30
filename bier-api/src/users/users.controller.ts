@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UseGuards, Req } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseInterceptors,
+  Req,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -8,9 +18,8 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/decorators/roles.decorator';
 import { UserRole } from 'src/enums/roles.enum';
 
-
 @ApiBearerAuth()
-@ApiTags('Users')
+@ApiTags('UsersApi')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -18,6 +27,11 @@ export class UsersController {
   @Get('/self')
   getSelf(@Req() req: any) {
     return req.user.user;
+  }
+
+  @Patch('/self')
+  updateSelf(@Req() req: any, @Body() UpdateUserDto: UpdateUserDto) {
+    return this.usersService.update(req.user.user.id, UpdateUserDto);
   }
 
   @Post()
@@ -46,10 +60,5 @@ export class UsersController {
   @Roles([UserRole.ADMIN])
   remove(@Param('id') id: string) {
     return this.usersService.remove(id);
-  }
-
-  @Patch('self')
-  updateSelf(@Req() req: any, @Body() UpdateUserDto: UpdateUserDto) {
-
   }
 }

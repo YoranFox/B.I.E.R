@@ -2,13 +2,18 @@
 
 /* You can add global styles to this file, and also import other style files */
 body {
-    width: 100%;
-    -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            box-sizing: border-box;
-    color: $text-color-dark;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  color: $text-color-dark;
 }
 
 .full-height {
   height: 100vh;
+}
+
+main {
+  text-align: center;
+  position: relative;
 }

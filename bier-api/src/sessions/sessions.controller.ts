@@ -1,9 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Injectable, Scope, Inject, Req } from '@nestjs/common';
+import { Controller, Get, Post, Param, Delete, Req } from '@nestjs/common';
 import { SessionsService } from './sessions.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Session } from './entities/session.entity';
 
-@ApiTags('Sessions')
+@ApiTags('SessionsApi')
 @ApiBearerAuth()
 @Controller('sessions')
 export class SessionsController {
@@ -11,9 +11,9 @@ export class SessionsController {
 
   @Delete('user')
   removeUserFromSession(@Req() req: any) {
-    return this.sessionsService.removeUser(req.user)
+    return this.sessionsService.removeUser(req.user);
   }
- 
+
   @Post('user/:userId')
   selectUserForSession(@Param('userId') userId: string, @Req() req: any) {
     return this.sessionsService.setUser(req.user, userId);
