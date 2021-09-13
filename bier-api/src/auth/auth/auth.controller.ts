@@ -1,4 +1,4 @@
-import { Controller, Param, Post, Req } from '@nestjs/common';
+import { Controller, Get, Param, Post, Req } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Public } from 'src/decorators/public.decorator';
 import { AuthService } from './auth.service';
@@ -16,5 +16,10 @@ export class AuthController {
     @Req() req: any,
   ): Promise<LoginResponseDto> {
     return this.authService.loginWithCode(code, req.ip);
+  }
+
+  @Get('')
+  isAuthenticated() {
+    return true;
   }
 }

@@ -12,7 +12,7 @@ export class UsersService {
   @InjectRepository(User)
   private userRep: Repository<User>;
 
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto): Promise<User> {
     const userWithName = await this.userRep.find(
       {
         where: {name: createUserDto.name}

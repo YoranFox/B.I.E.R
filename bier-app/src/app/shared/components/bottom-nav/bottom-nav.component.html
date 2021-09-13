@@ -1,0 +1,49 @@
+
+<div id="bottom-nav" class="container-fluid" *ngIf="navState">
+    <div class="row position-relative">
+        <div class="spotlight" [ngClass]="['position' + navState.currentLocation]">
+        </div>
+        <div class="col item-container" (click)="navigateTo(bottomRoutes.HOME)" [class.selected]="bottomRoutes.HOME === navState.currentLocation">
+            <div class="icon-container">
+                <fa-icon class="search-icon" [icon]="faHome"></fa-icon>
+            </div>
+            <div class="text-container">
+                <div class="text-content">
+                    Home
+                </div>
+            </div> 
+        </div>
+        <div class="col item-container" (click)="navigateTo(bottomRoutes.ORDERS)" [class.selected]="bottomRoutes.ORDERS === navState.currentLocation">
+            <div class="icon-container">
+                <fa-icon class="search-icon" [icon]="faOrders"></fa-icon>
+            </div>
+            <div class="text-container">
+                <div class="text-content">
+                    Orders
+                </div>
+            </div>
+        </div>
+        <div class="col item-container" (click)="navigateTo(bottomRoutes.RANKINGS)" [class.selected]="bottomRoutes.RANKINGS === navState.currentLocation">
+            <div class="icon-container">
+                <fa-icon class="search-icon" [icon]="faRanking"></fa-icon>
+            </div>
+            <div class="text-container">
+                <div class="text-content">
+                    Ranking
+                </div>
+            </div>
+        </div>
+        <div class="col item-container" (click)="navigateTo(bottomRoutes.PROFILE)" [class.selected]="bottomRoutes.PROFILE === navState.currentLocation">
+            <div class="icon-container">
+                <fa-icon class="search-icon" [icon]="faProfile"></fa-icon>
+            </div>
+            <div class="text-container">
+                <div class="text-content">
+                    Profile
+                </div>
+            </div>
+        </div>
+ 
+    </div>
+
+</div>

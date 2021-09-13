@@ -1,7 +1,10 @@
 @import "variables";
 
+html, body { height: 100% }
+
 /* You can add global styles to this file, and also import other style files */
 body {
+  
   width: 100%;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -10,7 +13,7 @@ body {
 }
 
 .full-height {
-  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
 }
 
 main {
@@ -46,6 +49,10 @@ button:hover {
 
 button:disabled {
   box-shadow: none;
-  opacity: 40%;
+  opacity: 60%;
   border: none;
+}
+
+.light-dark-text {
+  color: #888;
 }

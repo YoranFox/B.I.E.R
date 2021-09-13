@@ -6,6 +6,10 @@ import { AuthModule } from './auth/auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { SessionsModule } from './sessions/sessions.module';
 import { CodesModule } from './codes/codes.module';
+import { AwardsModule } from './awards/awards.module';
+import { OrdersModule } from './orders/orders.module';
+import { BeveragesModule } from './beverages/beverages.module';
+import { MapsModule } from './maps/maps.module';
 
 @Module({
   imports: [
@@ -22,6 +26,10 @@ import { CodesModule } from './codes/codes.module';
     AuthModule,
     SessionsModule,
     CodesModule,
+    AwardsModule,
+    OrdersModule,
+    BeveragesModule,
+    MapsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

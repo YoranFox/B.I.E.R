@@ -7,8 +7,4 @@ export class CreateUserDto {
     @Expose()
     @IsString()
     name: string;
-
-    @Expose()
-    @IsBase64()
-    pictureBase64String?: string;
 }

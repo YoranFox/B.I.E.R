@@ -1,15 +1,16 @@
 @use 'variables' as *;
 
-.container-fluid {
-    padding: 50px;
+#welcome-page {
+    background-color: $text-color-light;
+    display: flex;
+    flex-flow: column;
+    color: $text-color-dark;
 }
 
-#welcome-page {
-    background-color: $middle-blue-green;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    color: $text-color-dark;
+.top-part {
+    background-color: $green-sheen;
+    color: $text-color-light;
+    height: 60px;
 }
 
 button {
@@ -18,5 +19,87 @@ button {
 }
 
 .users-container {
-    height: 50vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    background-color: $text-color-light;
+}
+
+img {
+    width: 50px;
+    border-radius: 9px;
+    margin-right: 20px;
+}
+
+.user-item {
+    background-color: white;
+    color: $green-sheen;
+    padding: 7px;
+    margin-bottom: 10px;
+    transition: all .1s ease-in-out;
+    box-shadow: 1px 9px 25px -13px rgba(0,0,0,0.3);
+    -webkit-box-shadow: 1px 9px 25px -13px rgba(0,0,0,0.3);
+    -moz-box-shadow: 1px 9px 25px -13px rgba(0,0,0,0.3);
+
+}
+
+.user-item:hover, .user-item:active {
+    transform: scale(.95);
+}
+
+a {
+    color: rgba(0,0,0,.4)
+}
+
+a:hover {
+    cursor: pointer;
+    color: rgba(0,0,0,.6)
+}
+
+a:focus {
+    color: rgba(0,0,0,.6)
+}
+
+input {
+    margin: auto;
+    width: 80%;
+    border: none;
+    background: none;
+    border-radius: 0;
+    border-bottom: $text-color-dark 1px solid;
+}
+
+input:focus {
+    border: none;
+    
+    border-bottom: $text-color-dark 1px solid;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+}
+
+.search-icon {
+    color: $text-color-dark;
+    position: absolute;
+    left: 50px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.bottom-part {
+    background-color: $text-color-light;
+}
+
+.icon-container {
+    text-align: center;
+    font-size: .8rem;
+    color: #555;
+
+    fa-icon {
+        font-size: 1rem;
+    }
+}
+
+.title {
+    font-size: 1.1rem;
+    font-weight: 400;
 }

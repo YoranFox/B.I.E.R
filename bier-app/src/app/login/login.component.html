@@ -1,40 +1,55 @@
 <div class="container-fluid full-height position-relative" id="login-page">
-    <div class="top-part">
-        <div class="row mb-5">
+    <div class="top-part container-fluid">
+
+        <div class="row">
             <div class="col d-flex justify-content-center">
-                <img src="../../assets/logo.svg"/>
+                <div class="text-container text-center">
+                    <h5>Welcome to Project B.I.E.R</h5>
+                </div>
             </div>
         </div>
         <div class="row">
             <div class="col d-flex justify-content-center">
-                <div class="text-container text-center">
-                    <h2 class="mb-3">Hi there,</h2>
-                    <h5 class="mb-5">Welcome to <span class="project-title">Project B.I.E.R</span></h5>
-                    <span style="opacity: 70%; font-weight: 100;">Please enter provided code below</span>
-                </div>
+                <img src="../../assets/logo.svg"/>
             </div>
         </div>
     </div>
-    <div class="bottom-part">
-        <div class="row mb-5">
-            <div class="col  d-flex justify-content-center">
-                <div class="pin-container  d-flex justify-content-between">
-                    <input maxlength="1" [(ngModel)]="code[0]" (focus)="selectAllContent($event)" (keyup)="onDigitInput($event)" class="form-control text-center" type="password"/>
+    <div class="switch-container">
+        <div class="switch">
 
-                    <input maxlength="1" [(ngModel)]="code[1]" [disabled]="code.length < 1" (focus)="selectAllContent($event)" (keyup)="onDigitInput($event)" class="form-control text-center" type="password"/>
+            <div class="switch-item" [class.selected]="loginJoinActive" (click)="onClickSwitchLeft()">
+                <span class="text-container">
+                    JOIN
+                </span>
+            </div>
+            <div class="switch-item" [class.selected]="loginCreateActive" (click)="onClickSwitchRight()">
+                <span class="text-container">
+                    CREATE
+                </span>
+            </div>
+            <div class="switcher" [class.left]="loginJoinActive" [class.right]="loginCreateActive"></div>
+        </div>
 
-                    <input maxlength="1" [(ngModel)]="code[2]" [disabled]="code.length < 2" (focus)="selectAllContent($event)" (keyup)="onDigitInput($event)" class="form-control text-center" type="password"/>
-
-                    <input maxlength="1" [(ngModel)]="code[3]" [disabled]="code.length < 3" (focus)="selectAllContent($event)" (keyup)="onDigitInput($event)" class="form-control text-center" type="password"/>
-
-                    <input maxlength="1" [(ngModel)]="code[4]" [disabled]="code.length < 4" (focus)="selectAllContent($event)" (keyup)="onDigitInput($event)" class="form-control text-center" type="password"/>
+    </div>
+    <div class="bottom-part container-fluid">
+        <div class="row">
+            <div class="col text-center">
+                <span style="font-weight: 100;">Enter code below to join a party</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col d-flex justify-content-center position-relative">
+               
+                <div class="pin-container">
+                    <input (keyup.enter)="onClickLogin()" (focus)="invalidCred = false" [(ngModel)]="code" class="form-control text-center" [type]="codeShown ? 'text' : 'password'"/>
+                    <fa-icon *ngIf="code !== ''" class="eye-icon" [icon]="faEye" [class.selected]="codeShown" (click)="onClickShowCode()"></fa-icon>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col text-center">
-                <button [disabled]="loading || code.length !== 5" id="login-button" class="mb-2" (click)="onClickLogin()">Gain access</button>
-                <span *ngIf="invalidCred" class="error d-block">Invalid code, please try again</span>
+                <button [disabled]="loading || code === ''" id="login-button" (click)="onClickLogin()">Gain access</button>
+                <span *ngIf="invalidCred" class="error mt-2 d-block">Invalid code, please try again</span>
             </div>
         </div>
     </div>

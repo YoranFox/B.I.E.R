@@ -8,6 +8,8 @@ export class UserProfileDto {
     @Expose()
     name: string;
     @Expose()
+    moto: string;
+    @Expose()
     pictureBase64String?: string;
 }
 

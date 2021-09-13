@@ -1,0 +1,52 @@
+<div class="container-fluid" *ngIf="user">
+    <div class="row">
+        <div class="col d-flex justify-content-center">
+            <img *ngIf="user.pictureBase64String" [src]="user.pictureBase64String"/>
+            <img *ngIf="!user.pictureBase64String" src="../../assets/stock-profile.jpg"/>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col d-flex justify-content-center">
+            <span class="name-text">{{ user.name }}</span>
+        </div>
+    </div>
+    <div class="row mt-1">
+        <div class="col d-flex justify-content-center">
+            <span class="moto-text">{{ user.moto ? user.moto : '-' }}</span>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col">
+            <div class="row border-bottom pb-1">
+                <div class="col">
+                    <span class="section-title">Awards</span>
+                </div>
+            </div>
+            <div class="row mt-1">
+                <div class="col">
+                    <!-- <div *ngIf="user.awards.length > 0" class="awards-container">
+
+                    </div>
+                    <div *ngIf="user.awards.length === 0" class="">
+
+                    </div> -->
+                    <span class="light-dark-text">User has yet to earn awards</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col">
+            <div class="row border-bottom pb-1">
+                <div class="col">
+                    <span class="section-title">Other informationz</span>
+                </div>
+            </div>
+            <div class="row mt-1">
+                <div class="col">
+                    <span class="light-dark-text">Joined on: {{ user.createdOn | date }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

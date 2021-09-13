@@ -9,6 +9,11 @@ import { Session } from './entities/session.entity';
 export class SessionsController {
   constructor(private readonly sessionsService: SessionsService) {}
 
+  @Get('current')
+  getCurrentSession(@Req() req: any): Promise<Session> {
+    return req.user;
+  }
+
   @Delete('user')
   removeUserFromSession(@Req() req: any) {
     return this.sessionsService.removeUser(req.user);

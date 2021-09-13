@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { slider } from './route-animations';
+import { slider } from './animations/route-animations';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +13,21 @@ import { slider } from './route-animations';
 })
 export class AppComponent {
   title = 'client';
+
+  constructor() {
+    function setDocHeight() {
+      document.documentElement.style.setProperty('--vh', `${window.innerHeight/100}px`);
+      };
+      
+      window.addEventListener('resize', function () {
+      setDocHeight();
+      });
+      window.addEventListener('orientationchange', function () {
+      setDocHeight();
+      });
+      
+      setDocHeight();
+  }
 
   prepareRoute(outlet: RouterOutlet) {
     return (

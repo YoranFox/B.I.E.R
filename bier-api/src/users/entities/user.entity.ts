@@ -9,6 +9,9 @@ export class User {
     name: string;
 
     @Column({nullable: true})
+    moto: string;
+
+    @Column({nullable: true})
     pictureBase64String?: string;
 
     @Column({type: "timestamp", default: () => 'CURRENT_TIMESTAMP' })

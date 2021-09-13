@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
+import { faLock, faEye } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-login',
@@ -10,44 +11,27 @@ import { AuthService } from '../auth/auth.service';
 export class LoginComponent implements OnInit {
   public invalidCred = false;
   public loading = false;
+  public loginCreateActive = false;
+  public loginJoinActive = true;
+  public codeShown = false;
 
-  code: string[] = [];
+  public faPassword = faLock;
+  public faEye = faEye;
+
+  code: string = '';
 
   constructor(private auth: AuthService, private router: Router) {}
 
   ngOnInit(): void {}
 
-  onDigitInput(event: any) {
-    this.invalidCred = false;
-    console.log(event.code);
-
-    let element;
-    if (event.code !== 'Backspace')
-      element = event.srcElement.nextElementSibling;
-
-    if (event.code === 'Backspace')
-      element = event.srcElement.previousElementSibling;
-
-    if (element == null) {
-      element = document.getElementById('login-button');
-      element?.focus({ preventScroll: true });
-      element?.click();
-    } else {
-      element.focus({ preventScroll: true });
-    }
-  }
-
   public async onClickLogin(): Promise<void> {
     this.loading = true;
 
-    const loginSuccesfull = await this.auth.login(this.code.join(''));
+    const success = await this.auth.login(this.code);
 
-    if (loginSuccesfull) {
-      // Route to home page
-      this.router.navigate(['welcome']);
-    } else {
+    if(!success) {
       this.invalidCred = true;
-      this.code = [];
+      this.code = '';
     }
 
     this.loading = false;
@@ -55,5 +39,19 @@ export class LoginComponent implements OnInit {
 
   selectAllContent($event: any) {
     $event.target.select();
+  }
+
+  onClickSwitchRight() {
+    this.loginCreateActive = true;
+    this.loginJoinActive = false;
+  }
+  
+  onClickSwitchLeft() {
+    this.loginCreateActive = false;
+    this.loginJoinActive = true;
+  }
+
+  onClickShowCode() {
+    this.codeShown = !this.codeShown;
   }
 }
