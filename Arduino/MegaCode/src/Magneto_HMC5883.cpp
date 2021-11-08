@@ -3,8 +3,10 @@
 //
 
 #include "Magneto_HMC5883.h"
+#include "timer_implementations.h"
 Adafruit_HMC5883_Unified mag;
 bool request_new_heading;
+uint16_t heading_timeout_counter;
 
 
 void displaySensorDetails(void)
@@ -23,31 +25,14 @@ void displaySensorDetails(void)
 }
 
 /**
- * Timer that increments, when desired value is reached it will return true and reset
- * its internal timer to 0.
- * @param increment_amount counter increment steps.
- * @param time_limit value reset and return true.
- * @return true if counter >= time_limit, false if counter < time_limit.
- */
-bool timer_reset_upper_limit(uint8_t increment_amount, uint16_t time_limit){
-   static uint16_t timeout_counter = 0;
-   timeout_counter  = timeout_counter + increment_amount;
-   if (timeout_counter >= time_limit){
-       timeout_counter = 0;
-       return true;
-   }
-    return false;
-}
-/**
  * Sets the request flag for new magnetometer data. Throws a timeout warning if no new data is recieved.
  * Note disable flag after data is recieved.
  */
 void increment_magneto_timeout(){
-    //activate 10 times every second.
     if (!request_new_heading) {
-        request_new_heading = timer_reset_upper_limit(1, 5);
+        request_new_heading = timer_reset_upper_limit(1, 5, &heading_timeout_counter);
     }else{
-        bool temp = timer_reset_upper_limit(1, 5);
+        bool temp = timer_reset_upper_limit(1, 5, &heading_timeout_counter);
         if (temp){
             Serial.println("Magnetometer request timeout detected no new data recieved in last 100 ms.");
             Magneto_HMC5883_init();
@@ -56,7 +41,9 @@ void increment_magneto_timeout(){
 }
 
 void Magneto_HMC5883_init(){
+    //timeouts
     request_new_heading = false;
+    heading_timeout_counter = 0;
 
     Serial.println("HMC5883 Magnetometer init"); Serial.println("");
 

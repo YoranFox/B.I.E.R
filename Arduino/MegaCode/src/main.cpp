@@ -36,7 +36,7 @@ void setup_system_timer5_interrupt() {
 /**
  * Blink every second to indicate the system is alive.
  */
-void heat_beat_tick() {
+void heart_beat_tick() {
     ledStateCounter++;
     if (ledStateCounter%100 == 0){
         if (!ledState) {
@@ -52,15 +52,15 @@ void heat_beat_tick() {
 
 void system_tick() {
     Magneto_HMC5883_tick();
-    //robot_tick();
-    heat_beat_tick();
+    robot_tick();
+    heart_beat_tick();
     //Serial.println("tick");
 }
 
 
 void system_update(){
     Magneto_HMC5883_update();
-    //robot_update();
+    robot_update();
     //Serial.println("loop");
 }
 
@@ -69,9 +69,9 @@ void setup(void) {
     pinMode(ledPin, OUTPUT);
     Serial.begin(115200);
 
-    //sensors and robot
+    //sensors and robot initialisation
     Magneto_HMC5883_init();
-    //robot_init();
+    robot_init();
 
     //interrupt routine
     setup_system_timer5_interrupt(); // 100Hz

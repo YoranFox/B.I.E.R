@@ -5,25 +5,45 @@
 #include "robot.h"
 #include <stdio.h>
 #include <Arduino.h>
+#include "timer_implementations.h"
+
+bool request_new_kinematics;
+uint16_t kinematics_timeout_counter;
 
 //initialising motors
 motor m1 = {1, MOTOR1PIN1, MOTOR1PIN2, MOTOR1SPEEDPIN, 0, Stop};
 motor m2 = {2, MOTOR2PIN1, MOTOR2PIN2, MOTOR2SPEEDPIN, 0, Stop};
 motor m3 = {3, MOTOR3PIN1, MOTOR3PIN2, MOTOR3SPEEDPIN, 0, Stop};
 motor m4 = {4, MOTOR4PIN1, MOTOR4PIN2, MOTOR4SPEEDPIN, 0, Stop};
-
 //initalising robot
-robot r = {0.06, 0.25, 0.15, //radius, hor_dist, vert_dist,
-           0, 0, 100, // robot speed, robot angle
-           &m1,&m2,&m3,&m4
-};
+robot r = {0.06, 0.25, 0.15,
+           60, 45, 100, &m1,&m2,&m3,&m4};
+robot a = {1,1,1,1,1,2,};
 
 void get_motor_info(motor *m){
     Serial.print("Initialisation of motor: "); Serial.print(m->id); Serial.print("\n");
     Serial.println("Write motor info here...");
 
 }
+
+/**
+ * Sets the request flag for new magnetometer data. Throws a timeout warning if no new data is recieved.
+ * Note disable flag after data is recieved.
+ */
+void increment_kinematics_timeout(){
+    if (!request_new_kinematics) {
+        request_new_kinematics = timer_reset_upper_limit(1, 10, &kinematics_timeout_counter);
+    }else{
+        timer_reset_upper_limit(1, 10, &kinematics_timeout_counter);
+    }
+}
+
 void robot_init(){
+    //tick_timeouts
+    request_new_kinematics = false;
+    kinematics_timeout_counter = 0;
+
+    //pin define
     pinMode(MOTOR1PIN1, OUTPUT);
     pinMode(MOTOR1PIN2, OUTPUT);
     pinMode(MOTOR1SPEEDPIN, OUTPUT);
@@ -37,6 +57,7 @@ void robot_init(){
     pinMode(MOTOR4PIN2, OUTPUT);
     pinMode(MOTOR4SPEEDPIN, OUTPUT);
 
+    //motor init.
     get_motor_info(&m1);
     get_motor_info(&m2);
     get_motor_info(&m3);
@@ -44,11 +65,11 @@ void robot_init(){
 }
 
 //source : https://www.researchgate.net/publication/308570348_Inverse_kinematic_implementation_of_four-wheels_mecanum_drive_mobile_robot_using_stepper_motors
-int transform_matrix[4][3] = {
-        {1,-1,(int) (-1*(r.wheel_hor_dist+r.wheel_vert_dist))},
-        {1, 1,(int)  (1*(r.wheel_hor_dist+r.wheel_vert_dist))},
-        {1, 1,(int) (-1*(r.wheel_hor_dist+r.wheel_vert_dist))},
-        {1,-1,(int)  (1*(r.wheel_hor_dist+r.wheel_vert_dist))}
+float transform_matrix[4][3] = {
+        {1.0,-1.0, (-1*(r.wheel_hor_dist+r.wheel_vert_dist))},
+        {1.0, 1.0, (1*(r.wheel_hor_dist+r.wheel_vert_dist))},
+        {1.0, 1.0, (-1*(r.wheel_hor_dist+r.wheel_vert_dist))},
+        {1.0,-1.0, (1*(r.wheel_hor_dist+r.wheel_vert_dist))}
 };
 
 void inverse_kinematics(bool debug, robot* r){
@@ -92,7 +113,6 @@ void inverse_kinematics(bool debug, robot* r){
     }
 }
 
-
 void set_motor_speed(motor m, int new_speed){
     if ((new_speed < 0)||(new_speed>255)){
         Serial.println("Error! set speed to value in between 0 and 255");
@@ -121,8 +141,14 @@ void set_motor_direction(motor m, int new_direction){
 }
 
 void robot_tick(){
-    inverse_kinematics(1, &r);
+    increment_kinematics_timeout();
 }
 
+void robot_update() {
+    if (request_new_kinematics) {
+        inverse_kinematics(1, &r);
+        request_new_kinematics = false;
+    }
+}
 
 

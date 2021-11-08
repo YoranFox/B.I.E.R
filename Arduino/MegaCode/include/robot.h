@@ -41,5 +41,6 @@ extern robot r;
 
 void robot_init();
 void robot_tick();
+void robot_update();
 
 #endif //MEGACODE_ROBOT_H
