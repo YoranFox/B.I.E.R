@@ -170,6 +170,20 @@ bool Adafruit_HMC5883_Unified::begin() {
   // Enable the magnetometer
   write8(HMC5883_ADDRESS_MAG, HMC5883_REGISTER_MAG_MR_REG_M, 0x00);
 
+  //ToDo I have added this as extra to the driver, and should document this!.
+  /*Write configuration register A
+   * CRA7 = 0 reserved
+   * CRA6 = 1 average = 8
+   * CRA5 = 1 ~
+   * CRA4 = 1 data write rate 75 hz
+   * CRA3 = 1 ~
+   * CRA2 = 0 ~
+   * CRA1 = 0 normal measurement mode
+   * CRA0 = 0 ~
+   * byte: 01111000 = 0x78
+   */
+  write8(HMC5883_ADDRESS_MAG, HMC5883_REGISTER_MAG_CRA_REG_M,0x78);
+
   // Set the gain to a known level
   setMagGain(HMC5883_MAGGAIN_1_3);
 

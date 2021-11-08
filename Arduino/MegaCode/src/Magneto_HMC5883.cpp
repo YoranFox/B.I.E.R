@@ -4,6 +4,8 @@
 
 #include "Magneto_HMC5883.h"
 Adafruit_HMC5883_Unified mag;
+bool request_new_heading;
+
 
 void displaySensorDetails(void)
 {
@@ -20,17 +22,52 @@ void displaySensorDetails(void)
     Serial.println("");
 }
 
+/**
+ * Timer that increments, when desired value is reached it will return true and reset
+ * its internal timer to 0.
+ * @param increment_amount counter increment steps.
+ * @param time_limit value reset and return true.
+ * @return true if counter >= time_limit, false if counter < time_limit.
+ */
+bool timer_reset_upper_limit(uint8_t increment_amount, uint16_t time_limit){
+   static uint16_t timeout_counter = 0;
+   timeout_counter  = timeout_counter + increment_amount;
+   if (timeout_counter >= time_limit){
+       timeout_counter = 0;
+       return true;
+   }
+    return false;
+}
+/**
+ * Sets the request flag for new magnetometer data. Throws a timeout warning if no new data is recieved.
+ * Note disable flag after data is recieved.
+ */
+void increment_magneto_timeout(){
+    //activate 10 times every second.
+    if (!request_new_heading) {
+        request_new_heading = timer_reset_upper_limit(1, 5);
+    }else{
+        bool temp = timer_reset_upper_limit(1, 5);
+        if (temp){
+            Serial.println("Magnetometer request timeout detected no new data recieved in last 100 ms.");
+            Magneto_HMC5883_init();
+        }
+    }
+}
 
 void Magneto_HMC5883_init(){
+    request_new_heading = false;
+
     Serial.println("HMC5883 Magnetometer init"); Serial.println("");
 
     /* Initialise the sensor */
     mag = Adafruit_HMC5883_Unified(12345);
     while(!mag.begin())
     {
+        //ToDo add some sort of hard fault handler here.
         /* There was a problem detecting the HMC5883 ... check your connections */
         Serial.println("No HMC5883 detected ...");
-        delay(5000);
+        delay(500);
     }
 
     /* Display some basic information on this sensor */
@@ -74,12 +111,19 @@ float get_heading(bool debug) {
     return headingDegrees;
 }
 
-
 void Magneto_HMC5883_tick(){
-    float headingDegrees = get_heading(1);
-
-
+    increment_magneto_timeout();
 }
+void Magneto_HMC5883_update(){
+    if(request_new_heading) {
+        request_new_heading = false;
+        float headingDegrees = get_heading(1);
+    }
+}
+
+
+
+
 
 /***************************************************************************
   This is a library example for the HMC5883 magnentometer/compass
