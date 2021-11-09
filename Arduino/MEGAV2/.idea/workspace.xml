@@ -13,18 +13,45 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0b3c6642-ee9d-48fe-acb8-dc41d410d168" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/MEGAV2.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../test_because _all_broke/.idea/test_because _all_broke.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../test_because _all_broke/src/main.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../untitled/.idea/untitled.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../untitled/src/main.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../untitled1/.idea/untitled1.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../untitled1/src/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MegaCode/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MegaCode/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../MegaCode/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MegaCode/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../MegaCode/CMakeLists.txt" afterDir="false" />
+    <list default="true" id="0b3c6642-ee9d-48fe-acb8-dc41d410d168" name="Changes" comment="Everything is now merged in this project">
+      <change afterPath="$PROJECT_DIR$/src/Communication.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Communication.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../test_objects/YoutubeChannel.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../test_objects/YoutubeChannel.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/serialmonitor_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/serialmonitor_settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MegaCode/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MegaCode/.idea/MegaCode.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MegaCode/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MegaCode/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MegaCode/.idea/serialmonitor_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MegaCode/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MegaCode/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MegaCode/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MegaCode/include/Magneto_HMC5883.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MegaCode/include/README" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MegaCode/include/pin_def.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MegaCode/include/robot.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MegaCode/include/timer_implementations.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MegaCode/lib/Adafruit_HMC5883_Unified/Adafruit_HMC5883_U.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MegaCode/lib/Adafruit_HMC5883_Unified/Adafruit_HMC5883_U.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MegaCode/lib/Adafruit_HMC5883_Unified/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MegaCode/lib/Adafruit_HMC5883_Unified/examples/magsensor/magsensor.ino" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MegaCode/lib/Adafruit_HMC5883_Unified/library.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MegaCode/lib/Adafruit_Unified_Sensor/Adafruit_Sensor.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MegaCode/lib/Adafruit_Unified_Sensor/Adafruit_Sensor.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MegaCode/lib/Adafruit_Unified_Sensor/LICENSE.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MegaCode/lib/Adafruit_Unified_Sensor/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MegaCode/lib/Adafruit_Unified_Sensor/examples/sensortest/sensortest.ino" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MegaCode/lib/Adafruit_Unified_Sensor/library.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MegaCode/lib/README" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MegaCode/platformio.ini" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MegaCode/src/Magneto_HMC5883.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MegaCode/src/main.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MegaCode/src/robot.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MegaCode/src/timer_implementations.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MegaCode/test/README" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,9 +61,17 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:megaatmega2560" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="ProjectId" id="20dp2uCAVU6nGjCuFxLLzmDh1Uk" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -54,11 +89,6 @@
     <property name="cmake.loaded.for.project" value="true" />
   </component>
   <component name="RunManager" selected="PlatformIO.PlatformIO Upload">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="Z_DUMMY_TARGET" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MEGAV2" TARGET_NAME="Z_DUMMY_TARGET" CONFIG_NAME="megaatmega2560" RUN_TARGET_PROJECT_NAME="MEGAV2" RUN_TARGET_NAME="Z_DUMMY_TARGET">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -93,8 +123,25 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1636384114472</updated>
-      <workItem from="1636384115743" duration="6000" />
+      <workItem from="1636384115743" duration="444000" />
+      <workItem from="1636476836338" duration="2018000" />
+      <workItem from="1636492951813" duration="3412000" />
     </task>
+    <task id="LOCAL-00001" summary="Trying something new because i broke project :)">
+      <created>1636384212028</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1636384212028</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Everything is now merged in this project">
+      <created>1636384484797</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1636384484797</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -110,5 +157,11 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Trying something new because i broke project :)" />
+    <MESSAGE value="Everything is now merged in this project" />
+    <option name="LAST_COMMIT_MESSAGE" value="Everything is now merged in this project" />
   </component>
 </project>
