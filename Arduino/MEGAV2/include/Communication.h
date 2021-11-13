@@ -62,6 +62,9 @@ public:
      */
     void txPush(char b);
 
+    //for debugging
+    void print_rx_state();
+
 protected:
     /**
      *computes the crc
@@ -96,6 +99,8 @@ protected:
     //be read from rxBufferLength.
     int rxPop();
 
+    //Function that processes the recieved packet.
+    //Should be something in robot struct probably
     void rxPacket(char *data, int length);
 
     //Parses a byte, calling rxPacket when a correct packet is received.

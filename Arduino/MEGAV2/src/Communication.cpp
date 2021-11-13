@@ -43,21 +43,52 @@ void CommsPortUART::update() {
     while(rxBufferLength) parseByte(rxPop());
 }
 
-void CommsPortUART::txPacket(char *b, uint8_t len) {
-
-}
-
-void CommsPortUART::txPush(char b) {
-
-}
+// Transfers data from hardware RX buffer to software RX buffer.
 void CommsPortUART::receive() {
+    cli();//stop interrupts
+    while(Serial.available()) {
+        //we stop if we want to write more to the software rx buffer than there is space availeble
+        if (rxBufferLength >= COMMS_UART_RX_BUFFER_SIZE) {
+            break;
+        }
+        //store the actual bytes
+        rxBuffer[rxBufferReadPtr] = Serial.read();
+        rxBufferReadPtr++;
 
+        //prevent overflow and wrap to front of buffer
+        rxBufferReadPtr %= COMMS_UART_RX_BUFFER_SIZE;
+        rxBufferLength++;
+    }
+    sei();//allow interrupts
 }
 
+// Pop a byte from the receive buffer. Number of bytes available can
+// be read from rxBufferLength.
 int CommsPortUART::rxPop() {
+    //disable interrupts to avoid any nasty suprises along the way.
+    cli();//stop interrupts
+    int d = -1;
+    if (rxBufferLength) {
+        d = rxBuffer[rxBufferWritePtr];
+        rxBufferWritePtr++;
+
+        //prevent overflow and wrap to front of buffer
+        rxBufferWritePtr %= COMMS_UART_RX_BUFFER_SIZE;
+        rxBufferLength--;
+    }
+    sei();//allow interrupts
+    return d;
+}
+
+void CommsPortUART::rxPacket(char *data, int length) {
 
 }
 
+void CommsPortUART::print_rx_state(){
+    Serial.println(rxState);
+}
+
+// Parses a byte, calling rxPacket when a correct packet is received.
 void CommsPortUART::parseByte(char b) {
     if (b == COMMS_PACKET_START) {
         // Start of a new packet
@@ -104,6 +135,14 @@ void CommsPortUART::parseByte(char b) {
 
     // Update CRC
     rxCrc = crc8(b, rxCrc);
+}
+
+void CommsPortUART::txPacket(char *b, uint8_t len) {
+
+}
+
+void CommsPortUART::txPush(char b) {
+
 }
 
 void CommsPortUART::transmit() {

@@ -146,7 +146,7 @@ void robot_tick(){
 
 void robot_update() {
     if (request_new_kinematics) {
-        inverse_kinematics(1, &r);
+        inverse_kinematics(0, &r);
         request_new_kinematics = false;
     }
 }

@@ -2,6 +2,9 @@
 #include <Wire.h>
 #include "Magneto_HMC5883.h"
 #include "robot.h"
+#include "Communication.h"
+
+CommsPortUART uart_obj;
 
 const int ledPin =  LED_BUILTIN;// the number of the LED pin
 uint8_t ledState = 0;             // ledState used to set the LED
@@ -54,6 +57,7 @@ void system_tick() {
     Magneto_HMC5883_tick();
     robot_tick();
     heart_beat_tick();
+    uart_obj.print_rx_state();
     //Serial.println("tick");
 }
 
@@ -61,6 +65,7 @@ void system_tick() {
 void system_update(){
     Magneto_HMC5883_update();
     robot_update();
+    uart_obj.update();
     //Serial.println("loop");
 }
 

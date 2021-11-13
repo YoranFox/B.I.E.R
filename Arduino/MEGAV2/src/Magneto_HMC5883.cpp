@@ -104,7 +104,7 @@ void Magneto_HMC5883_tick(){
 void Magneto_HMC5883_update(){
     if(request_new_heading) {
         request_new_heading = false;
-        float headingDegrees = get_heading(1);
+        float headingDegrees = get_heading(0);
     }
 }
 
