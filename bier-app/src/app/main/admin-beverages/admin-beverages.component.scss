@@ -1,0 +1,28 @@
+#beverages-container {
+    padding: 30px;
+    padding-bottom: 40px;
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+}
+
+.top-part {
+    flex: 1;
+}
+
+.bottom-part {
+    flex: 0;
+}
+
+.bottom-part {
+    flex: 0;
+}
+
+.top-part {
+    flex: 1;
+}
+
+img {
+    width: 50px;
+    border-radius: 100%;
+}

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/auth/auth.service';
 import { NavigationService } from '../../services/navigation.service';
 import { faSignOutAlt, faUserEdit, faUserFriends } from '@fortawesome/free-solid-svg-icons';
+import { SessionsService } from '../../services/sessions.service';
 
 @Component({
   selector: 'app-top-nav',
@@ -13,7 +14,7 @@ export class TopNavComponent implements OnInit {
   public faExit = faSignOutAlt;
   public faUserChange = faUserFriends;
 
-  constructor(private authService: AuthService, private navigationService: NavigationService) { }
+  constructor(private authService: AuthService, private sessionService: SessionsService ,private navigationService: NavigationService) { }
 
   ngOnInit(): void {
   }
@@ -24,6 +25,10 @@ export class TopNavComponent implements OnInit {
 
   goToUsers() {
     this.navigationService.navigateToWelcome();
+  }
+
+  public get isUser(): boolean {
+    return this.sessionService.user ? true : false;
   }
 
 }

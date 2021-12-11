@@ -7,10 +7,11 @@ button {
     max-width: 350px;
 }
 
-.pin-container {
+.input-container {
     width: 80%;
     max-width: 320px;
     position: relative;
+    margin: auto;
 
     .eye-icon {
         top: 50%;
@@ -60,10 +61,10 @@ img {
 #login-page {
     background-color: $green-sheen;
     display: flex;
-flex-direction: column;
-justify-content: space-around;
-padding: 0;
-color: $text-color-light;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 0;
+    color: $text-color-light;
 }
 
 .bottom-part {
@@ -146,5 +147,15 @@ color: $text-color-light;
     border-bottom-right-radius: 10px;
     border-left: none;
 
+}
 
+.password-input, .email-input {
+    padding-left: 40px;
+}
+
+.input-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
 }

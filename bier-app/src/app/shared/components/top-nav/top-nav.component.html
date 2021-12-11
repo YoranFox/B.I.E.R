@@ -1,8 +1,8 @@
 <div id="top-nav" class="container-fluid">
     <div class="row">
         <div class="col-3 d-flex justify-content-center my-auto">
-            <div class="icon-container">
-                <fa-icon (click)="goToUsers()" class="mr-2 d-block" [icon]="faUserChange"></fa-icon>
+            <div class="icon-container" (click)="goToUsers()" *ngIf="isUser">
+                <fa-icon class="mr-2 d-block" [icon]="faUserChange"></fa-icon>
                 <span class="d-block">Change</span>
             </div>
 

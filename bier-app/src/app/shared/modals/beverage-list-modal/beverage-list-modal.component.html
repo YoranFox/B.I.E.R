@@ -1,0 +1,16 @@
+<div class="list-container">
+    <div class="list-item" (click)="onClickBeverage(beverage)" [class.last]="last"  *ngFor="let beverage of beverages; let last = last">
+        <div class="row">
+            <div class="col d-flex justify-content-left">
+                <div class="image-container">
+                    <img *ngIf="!beverage.pictureBase64String" src="../../../assets/stock-profile.jpg"/>
+                    <img *ngIf="beverage.pictureBase64String" [src]="beverage.pictureBase64String" />
+                </div>
+                <div class="text-container">
+                    <span>{{ beverage.name }}</span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

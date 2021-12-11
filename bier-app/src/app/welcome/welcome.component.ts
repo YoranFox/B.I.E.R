@@ -34,7 +34,7 @@ export class WelcomeComponent implements OnInit {
   async fetchUsers() {
     this.loading = true;
     try {
-      this.users = await this.userApi.usersControllerFindAll().toPromise();
+      this.users = await this.userApi.usersControllerFindAllSelf().toPromise();
     }
     catch(err) {
       console.log(err);

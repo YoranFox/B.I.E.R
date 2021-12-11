@@ -1,29 +1,58 @@
-import { UserRole } from "src/enums/roles.enum";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Beverage } from 'src/beverages/entities/beverage.entity';
+import { Creator } from 'src/creator/entities/creator.entity';
+import { Map } from 'src/maps/entities/map.entity';
+import { Robot } from 'src/robots/entities/robot.entity';
+import { User } from 'src/users/entities/user.entity';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Code {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @Column({nullable: true})
-    description: string;
+  @Column({ nullable: true })
+  description: string;
 
-    @Column()
-    code: string;
+  @Column()
+  code: string;
 
-    @Column({
-        type: "enum",
-        enum: UserRole,             
-    })
-    role: UserRole;
+  @ManyToMany(() => User, (user) => user.codes, {
+    cascade: true,
+    eager: true,
+  })
+  @JoinTable()
+  users: User[];
 
-    @Column({default: true})
-    active: boolean;
+  @ManyToMany(() => Beverage, {
+    eager: true,
+  })
+  @JoinTable()
+  beverages: Beverage[];
 
-    @Column({type: "timestamp"})
-    endDate: Date;
+  @ManyToMany(() => Robot, {
+    eager: true,
+  })
+  @JoinTable()
+  robots: Robot[];
 
-    @Column({type: "timestamp", default: () => 'CURRENT_TIMESTAMP' })
-    createdOn: Date;
+  @ManyToOne(() => Map, {
+    eager: true,
+  })
+  map: Map;
+
+  @Column({ default: true })
+  active: boolean;
+
+  @ManyToOne(() => Creator, { eager: true })
+  creator: Creator;
+
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  createdOn: Date;
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Session } from '../../_sdk/models';
+import { Creator, User, Session } from 'src/app/_sdk/models';
 import { SessionsApiService } from '../../_sdk/services';
 
 @Injectable({
@@ -20,21 +20,34 @@ export class SessionsService {
       this.currentSession = session;
     }
     catch(err) {
-      
       delete this.currentSession;
     }
 
   }
 
-  get session() {
+  get session(): Session | undefined {
     return this.currentSession;
   }
 
   get role() {
-    return this.currentSession?.code.role;
+    let role = null;
+    if(this.currentSession?.code) {
+      role = 'Member';
+    }
+    if(this.currentSession?.user){
+      role = 'User';
+    }
+    if(this.currentSession?.creator) {
+      role = 'Creator';
+    }
+    return role;
   }
 
-  get user() {
+  get user(): User | undefined {
     return this.currentSession?.user;
+  }
+
+  get creator(): Creator | undefined {
+    return this.currentSession?.creator;
   }
 }

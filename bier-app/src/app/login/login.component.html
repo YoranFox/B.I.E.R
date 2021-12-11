@@ -31,7 +31,7 @@
         </div>
 
     </div>
-    <div class="bottom-part container-fluid">
+    <div *ngIf="!loginCreateActive" id="user-container" class="bottom-part container-fluid">
         <div class="row">
             <div class="col text-center">
                 <span style="font-weight: 100;">Enter code below to join a party</span>
@@ -40,16 +40,41 @@
         <div class="row">
             <div class="col d-flex justify-content-center position-relative">
                
-                <div class="pin-container">
-                    <input (keyup.enter)="onClickLogin()" (focus)="invalidCred = false" [(ngModel)]="code" class="form-control text-center" [type]="codeShown ? 'text' : 'password'"/>
+                <div class="input-container">
+                    <input  placeholder="code" (keyup.enter)="onClickLoginCode()" (focus)="invalidCred = false" [(ngModel)]="code" class="form-control text-center" [type]="codeShown ? 'text' : 'password'"/>
                     <fa-icon *ngIf="code !== ''" class="eye-icon" [icon]="faEye" [class.selected]="codeShown" (click)="onClickShowCode()"></fa-icon>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col text-center">
-                <button [disabled]="loading || code === ''" id="login-button" (click)="onClickLogin()">Gain access</button>
+                <button [disabled]="loading || code === ''" id="login-button" (click)="onClickLoginCode()">Gain access</button>
                 <span *ngIf="invalidCred" class="error mt-2 d-block">Invalid code, please try again</span>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="loginCreateActive" class="creator-container" class="bottom-part container-fluid">
+        <div class="row">
+            <div class="col text-center">
+                <span style="font-weight: 100;">Login using email and password</span>
+            </div>
+        </div>
+        <div class="row">
+            <div style="flex-flow: column;" class="col d-flex justify-content-center position-relative">
+               <div class="input-container d-flex justify-content-center mb-3">
+                    <fa-icon [icon]="faEmail" class="input-icon"></fa-icon>
+                    <input class="form-control email-input" [(ngModel)]="email" (input)="checkInputValid()" placeholder="email" type="text"/>
+               </div>
+               <div class="input-container">
+                    <fa-icon class="input-icon" [icon]="faPassword"></fa-icon>
+                    <input class="form-control password-input" [(ngModel)]="password" (input)="checkInputValid()" (keyup.enter)="onClickLoginCreator()" placeholder="password" type="password"/>
+               </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <button [disabled]="loading || !creatorInputValid" id="login-button" (click)="onClickLoginCreator()">Login</button>
+                <span *ngIf="invalidCred" class="error mt-2 d-block">Invalid credentials, please try again</span>
             </div>
         </div>
     </div>

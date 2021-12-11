@@ -14,7 +14,9 @@ export const slider = trigger('routeAnimations', [
   transition('main => bottom', slideTo('left')),
   transition('bottom => top', slideTo('top')),
   transition('top => bottom', slideTo('bottom')),
-  transition('bottom => main', slideTo('right'))
+  transition('bottom => main', slideTo('right')),
+  transition('main => edit', slideTo('bottom')),
+  transition('edit => main', slideTo('top')),
 ]);
 
 function slideTo(direction: string) {

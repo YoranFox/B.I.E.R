@@ -17,7 +17,7 @@ export class AuthService {
     this.initLocalAuthToken()
   }
 
-  public async login(code: string): Promise<boolean> {
+  public async loginCode(code: string): Promise<boolean> {
     try {
       const res: LoginResponseDto = await this.authApi
         .authControllerLoginWithCode({ code })
@@ -31,6 +31,22 @@ export class AuthService {
       return false;
     }
     return true;
+  }
+
+  public async loginCreator(email: string, password: string): Promise<boolean> {
+    try {
+      const res: LoginResponseDto = await this.authApi
+        .authControllerLoginAsCreator({body: {email, password}})
+        .toPromise();
+      this.setAuthToken(res.jwt)
+      await this.sessionsService.updateLocalSession();
+      this.routeAfterLogin();
+      return true;
+    }
+
+    catch (err) {
+      return false;
+    }
   }
 
   public async logout(): Promise<boolean> {
@@ -69,17 +85,16 @@ export class AuthService {
   }
 
   private routeAfterLogin() {
-    
     switch(this.sessionsService.role) {
-      case 'Admin':
-        this.navigationService.navigateToAdmin();
+      case 'Creator':
+        this.navigationService.navigateToCreator();
         break;
 
       case 'User':
-        if(this.sessionsService.user) {
-          this.navigationService.navigateTo(BottomRoutes.HOME)
-          break;
-        }
+        this.navigationService.navigateTo(BottomRoutes.HOME)
+        break;
+
+      case 'Member':
         this.navigationService.navigateToWelcome();
         break;
       

@@ -6,9 +6,9 @@ import {
   Patch,
   Param,
   Delete,
+  Req,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { Public } from 'src/decorators/public.decorator';
 import { Roles } from 'src/decorators/roles.decorator';
 import { UserRole } from 'src/enums/roles.enum';
 import { CodesService } from './codes.service';
@@ -16,21 +16,32 @@ import { CreateCodeDto } from './dto/create-code.dto';
 import { UpdateCodeDto } from './dto/update-code.dto';
 
 @ApiBearerAuth()
-@Roles([UserRole.ADMIN])
 @ApiTags('CodesApi')
 @Controller('codes')
 export class CodesController {
   constructor(private readonly codesService: CodesService) {}
 
+  @Roles([UserRole.CREATOR])
   @Post()
-  @Public()
-  create(@Body() createCodeDto: CreateCodeDto) {
+  create(@Body() createCodeDto: CreateCodeDto, @Req() req: any) {
+    createCodeDto.creator = req.user.creator;
     return this.codesService.create(createCodeDto);
   }
 
   @Get()
   findAll() {
     return this.codesService.findAll();
+  }
+
+  @Get('creator/self')
+  findByCurrentCreator(@Req() req: any) {
+    return this.codesService.findByCreator(req.user.creator.id);
+  }
+
+  @Roles([UserRole.ADMIN])
+  @Get('creator/:creatorId')
+  findByCreator(@Param('creatorId') creatorId: string) {
+    return this.codesService.findByCreator(creatorId);
   }
 
   @Get(':id')

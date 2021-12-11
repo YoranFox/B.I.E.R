@@ -13,8 +13,9 @@ export class RoleGuard implements CanActivate {
     await this.sessionService.updateLocalSession();
     const expectedRole = route.data.role;
     const userRole = this.sessionService.role;
+    
     if (
-        !this.sessionService.session &&
+        !this.sessionService.session ||
         userRole !== expectedRole
     ) {
         this.auth.logout()

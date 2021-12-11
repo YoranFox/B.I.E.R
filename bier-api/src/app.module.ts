@@ -10,6 +10,9 @@ import { AwardsModule } from './awards/awards.module';
 import { OrdersModule } from './orders/orders.module';
 import { BeveragesModule } from './beverages/beverages.module';
 import { MapsModule } from './maps/maps.module';
+import { CreatorModule } from './creator/creator.module';
+import { RobotsModule } from './robots/robots.module';
+import { ActionsModule } from './actions/actions.module';
 
 @Module({
   imports: [
@@ -30,6 +33,9 @@ import { MapsModule } from './maps/maps.module';
     OrdersModule,
     BeveragesModule,
     MapsModule,
+    CreatorModule,
+    RobotsModule,
+    ActionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

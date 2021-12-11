@@ -1,17 +1,15 @@
-import { Exclude, Expose } from "class-transformer";
-import { UserRole } from "src/enums/roles.enum";
+import { Exclude, Expose } from 'class-transformer';
+import { Creator } from 'src/creator/entities/creator.entity';
+import { UserRole } from 'src/enums/roles.enum';
 
 @Exclude()
 export class CreateCodeDto {
-    @Expose()
-    code: string;
+  @Expose()
+  code: string;
 
-    @Expose()
-    role: UserRole;
+  @Expose()
+  description?: string;
 
-    @Expose()
-    endDate: Date;
-
-    @Expose()
-    description?: string;
+  @Expose()
+  creator?: Creator;
 }

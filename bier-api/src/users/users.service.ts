@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AuthService } from 'src/auth/auth/auth.service';
+import { Code } from 'src/codes/entities/code.entity';
 import { DeleteResult, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -12,7 +13,7 @@ export class UsersService {
   @InjectRepository(User)
   private userRep: Repository<User>;
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
+  async create(code: Code, createUserDto: CreateUserDto): Promise<User> {
     const userWithName = await this.userRep.find(
       {
         where: {name: createUserDto.name}
@@ -21,7 +22,7 @@ export class UsersService {
     if(userWithName.length > 0) {
       throw new HttpException('User name already exists', HttpStatus.CONFLICT)
     }
-    return this.userRep.save(createUserDto);
+    return this.userRep.save({...createUserDto, codes: [code]});
   }
 
   findAll() {
@@ -40,5 +41,11 @@ export class UsersService {
   async remove(id: string): Promise<User> {
     const user = await this.userRep.findOne(id);
     return this.userRep.remove(user);
+  }
+
+  findByCodeId(codeId: string): Promise<User[]> {
+    // return this.userRep.find({relations: ['codes'], where: { codes: { id: codeId }}})
+
+    return this.userRep.createQueryBuilder("user").innerJoin('user.codes', 'code').where('code.id = :codeId', {codeId: codeId}).getMany();
   }
 }

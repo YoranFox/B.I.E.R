@@ -1,0 +1,22 @@
+<div class="container-fluid full-height position-relative" id="edit-page">
+    <form [formGroup]="form" *ngIf="form" (submit)="onSubmit()">
+        <div class="row">
+            <div class="col">
+                <button type="button" (click)="onClickBack()">Back</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="name">Name: </label>
+                    <input class="form-control" id="name" formControlName='name' placeholder="Name"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <button type="submit">Save</button>
+            </div>
+        </div>
+    </form>
+</div>

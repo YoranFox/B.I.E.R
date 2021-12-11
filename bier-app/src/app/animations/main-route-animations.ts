@@ -55,6 +55,7 @@ function slideTo(direction: string) {
           [direction]: 0,
           [anchorDirection]: 0,
           width: '100%',
+          height: '100%',
         }),
       ],
       optional

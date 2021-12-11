@@ -12,7 +12,7 @@ import { ApiModule } from './_sdk/api.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TokenInterceptor } from './auth/token.interceptor';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { MainComponent } from './main/main.component'
+import { MainComponent } from './main/main.component';
 import { AuthService } from './auth/auth.service';
 import { SessionsService } from './shared/services/sessions.service';
 import { HomeComponent } from './main/home/home.component';
@@ -23,9 +23,37 @@ import { BottomNavComponent } from './shared/components/bottom-nav/bottom-nav.co
 import { AuthGuard } from './auth/auth-guard';
 import { RoleGuard } from './auth/role-guard';
 import { OrdersComponent } from './main/orders/orders.component';
+import { AdminCodesComponent } from './main/admin-codes/admin-codes.component';
+import { AdminBeveragesComponent } from './main/admin-beverages/admin-beverages.component';
+import { AdminWaitersComponent } from './main/admin-waiters/admin-waiters.component';
+import { AdminProfileComponent } from './main/admin-profile/admin-profile.component';
+import { CodeDetailComponent } from './main/admin-codes/code-detail/code-detail.component';
+import { BeverageDetailComponent } from './main/admin-beverages/beverage-detail/beverage-detail.component';
+import { BeverageListModalComponent } from './shared/modals/beverage-list-modal/beverage-list-modal.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { OrderDetailsComponent } from './main/orders/order-details/order-details.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, WelcomeComponent, MainComponent, HomeComponent, RankingsComponent, ProfileComponent, TopNavComponent, BottomNavComponent, OrdersComponent],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    WelcomeComponent,
+    MainComponent,
+    HomeComponent,
+    RankingsComponent,
+    ProfileComponent,
+    TopNavComponent,
+    BottomNavComponent,
+    OrdersComponent,
+    AdminCodesComponent,
+    AdminBeveragesComponent,
+    AdminWaitersComponent,
+    AdminProfileComponent,
+    CodeDetailComponent,
+    BeverageDetailComponent,
+    BeverageListModalComponent,
+    OrderDetailsComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -35,6 +63,7 @@ import { OrdersComponent } from './main/orders/orders.component';
     BrowserAnimationsModule,
     FontAwesomeModule,
     ApiModule.forRoot({ rootUrl: environment.apiBaseUrl }),
+    NgbModule,
   ],
   providers: [
     {

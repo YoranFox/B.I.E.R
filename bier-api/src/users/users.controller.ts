@@ -17,6 +17,7 @@ import { UserProfileDto } from './dto/response-user.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/decorators/roles.decorator';
 import { UserRole } from 'src/enums/roles.enum';
+import { request } from 'express';
 
 @ApiBearerAuth()
 @ApiTags('UsersApi')
@@ -35,13 +36,18 @@ export class UsersController {
   }
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto): Promise<UserProfileDto> {
-    return this.usersService.create(createUserDto);
+  create(@Body() createUserDto: CreateUserDto, @Req() req: any): Promise<UserProfileDto> {
+    return this.usersService.create(req.user.code, createUserDto);
   }
 
-  @Get()
-  findAll(): Promise<UserProfileDto[]> {
-    return this.usersService.findAll();
+  @Get('/code/self')
+  findAllSelf(@Req() req: any): Promise<UserProfileDto[]> {
+    return this.usersService.findByCodeId(req.user.code.id);
+  }
+
+  @Get('/code/:codeId')
+  findAllCode(@Param('codeId') codeId: string): Promise<UserProfileDto[]> {
+    return this.usersService.findByCodeId(codeId);
   }
 
   @Get(':id')
@@ -51,13 +57,13 @@ export class UsersController {
   }
 
   @Patch(':id')
-  @Roles([UserRole.ADMIN])
+  @Roles([UserRole.CREATOR])
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(id, updateUserDto);
   }
 
   @Delete(':id')
-  @Roles([UserRole.ADMIN])
+  @Roles([UserRole.CREATOR])
   remove(@Param('id') id: string) {
     return this.usersService.remove(id);
   }

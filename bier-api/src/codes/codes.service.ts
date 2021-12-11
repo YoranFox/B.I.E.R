@@ -1,23 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCodeDto } from './dto/create-code.dto';
 import { UpdateCodeDto } from './dto/update-code.dto';
-import * as bcrypt from 'bcrypt';
 import { MoreThan, Repository } from 'typeorm';
 import { Code } from './entities/code.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class CodesService {
-
   @InjectRepository(Code)
   private codeRep: Repository<Code>;
 
   /* CRUD operations */
- 
+
   async create(createCodeDto: CreateCodeDto) {
-    const saltOrRounds = 10;
-    const hashedCode = await bcrypt.hash(createCodeDto.code, saltOrRounds);
-    createCodeDto.code = hashedCode;
+    console.log(createCodeDto);
+
     return this.codeRep.save(createCodeDto);
   }
 
@@ -30,15 +27,13 @@ export class CodesService {
   }
 
   update(id: string, updateCodeDto: UpdateCodeDto) {
-    const code = this.codeRep.findOne(id);
-    return this.codeRep.save({...code, ...updateCodeDto});
+    return this.codeRep.save({ id, ...updateCodeDto });
   }
 
   async remove(id: string): Promise<Code> {
     const code = await this.findOne(id);
     return this.codeRep.remove(code);
   }
-
 
   /* other */
 
@@ -50,16 +45,35 @@ export class CodesService {
   async validateCode(code: string): Promise<Code> {
     const validCodes = await this.findValidCodes();
 
-    const results = await Promise.all(validCodes.map(async c => await bcrypt.compare(code, c.code)));
+    if (!validCodes || validCodes.length === 0) {
+      return null;
+    }
 
-    const index = results.findIndex(result => result);
-    return validCodes[index];
+    const result = validCodes.find((c) => c.code === code);
+
+    return result;
+  }
+
+  async findByCreator(creatorId: string): Promise<Code[]> {
+    console.log(creatorId);
+
+    return this.codeRep.find({
+      where: {
+        creator: { id: creatorId },
+      },
+    });
   }
 
   async findValidCodes(): Promise<Code[]> {
-    return this.codeRep.find({where: {
-      active: true,
-      endDate:  MoreThan(new Date())
-    }})
+    return this.codeRep.find({
+      where: [
+        {
+          active: true,
+        },
+        {
+          active: true,
+        },
+      ],
+    });
   }
 }
