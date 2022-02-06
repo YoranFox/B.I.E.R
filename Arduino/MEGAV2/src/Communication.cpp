@@ -6,7 +6,8 @@
 #include "Communication.h"
 
 CommsPortUART::CommsPortUART(){
-    //nothing
+//Set the callback function
+    command_processor_callback = &CommandProcessor::distribute_received_command;
 }
 
 void CommsPortUART::enableUART(int baudRate) {
@@ -86,7 +87,8 @@ int CommsPortUART::rxPop() {
 }
 
 void CommsPortUART::rxPacket(char *data, int length) {
-
+    //Callback to the function that processes the isolated received command packet.
+    command_processor.*command_processor_callback(data,length);
 }
 
 void CommsPortUART::print_rx_state(){

@@ -1,8 +1,9 @@
 
 #ifndef MEGAV2_COMMUNICATION_H
 #define MEGAV2_COMMUNICATION_H
-
+#include "Command_processor.h"
 #include "stdio.h"
+
 // Size of the RX buffers. Should be a power of two for speed.
 #define COMMS_UART_RX_BUFFER_SIZE 64
 
@@ -22,9 +23,12 @@
 #define COMMS_PACKET_END                      0x5A
 #define COMMS_PACKET_ESCAPE                   0x50
 
+extern CommandProcessor command_processor;
+
 
 class CommsPortUART {
 public:
+    void(CommandProcessor::*command_processor_callback)(char *d, int l);
 
     CommsPortUART();
 

@@ -4,7 +4,10 @@
 
 #ifndef MEGAV2_COMMAND_PROCESSOR_H
 #define MEGAV2_COMMAND_PROCESSOR_H
+#include "stdio.h"
 
+//List of all commands and their IDs
+#define COMMAND_SET_NEW_SPEED 0x01  //id,int16_t
 
 class CommandProcessor {
 public:
@@ -24,12 +27,12 @@ public:
      *  new_motor_speed
      *  force_stop_motor
      */
-
+private:
     /**
      * processes the command for the new motor speed
      * @param new_speed
      */
-    void new_motor_speed(int new_speed);
+    void new_motor_speed(int16_t new_speed);
 
 };
 

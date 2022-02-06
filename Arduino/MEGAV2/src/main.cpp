@@ -3,9 +3,10 @@
 #include "Magneto_HMC5883.h"
 #include "robot.h"
 #include "Communication.h"
+#include "Command_processor.h"
 
 CommsPortUART uart_obj;
-CmdProcessor cmd_processor;
+CommandProcessor command_processor;
 
 const int ledPin =  LED_BUILTIN;// the number of the LED pin
 uint8_t ledState = 0;             // ledState used to set the LED
