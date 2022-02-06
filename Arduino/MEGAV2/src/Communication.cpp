@@ -36,18 +36,22 @@ void CommsPortUART::reset(int baudRate) {
     enableUART(baudRate);
 }
 
+/*
+ * recieve any data that is in the HW buffer
+ */
 void CommsPortUART::update() {
     //recieve any data that is in the HW buffer
     receive();
     //parse all the incoming data
     while(rxBufferLength) parseByte(rxPop());
 }
-
-// Transfers data from hardware RX buffer to software RX buffer.
-void CommsPortUART::receive() {
+/*
+*Transfers data from hardware RX buffer to software RX buffer.
+*/
+ void CommsPortUART::receive() {
     cli();//stop interrupts
     while(Serial.available()) {
-        //we stop if we want to write more to the software rx buffer than there is space availeble
+        //we stop if we want to write more to the software rx buffer than there is space available
         if (rxBufferLength >= COMMS_UART_RX_BUFFER_SIZE) {
             break;
         }
@@ -61,15 +65,16 @@ void CommsPortUART::receive() {
     }
     sei();//allow interrupts
 }
-
-// Pop a byte from the receive buffer. Number of bytes available can
-// be read from rxBufferLength.
+/*
+ Pop a byte from the software receive buffer.
+ Number of bytes available can be read from rxBufferLength.
+*/
 int CommsPortUART::rxPop() {
-    //disable interrupts to avoid any nasty suprises along the way.
+    //disable interrupts to avoid any nasty surprises along the way.
     cli();//stop interrupts
-    int d = -1;
+    int b = -1;
     if (rxBufferLength) {
-        d = rxBuffer[rxBufferWritePtr];
+        b = rxBuffer[rxBufferWritePtr];
         rxBufferWritePtr++;
 
         //prevent overflow and wrap to front of buffer
@@ -77,7 +82,7 @@ int CommsPortUART::rxPop() {
         rxBufferLength--;
     }
     sei();//allow interrupts
-    return d;
+    return b;
 }
 
 void CommsPortUART::rxPacket(char *data, int length) {
@@ -87,9 +92,10 @@ void CommsPortUART::rxPacket(char *data, int length) {
 void CommsPortUART::print_rx_state(){
     Serial.println(rxState);
 }
-
+/*
 // Parses a byte, calling rxPacket when a correct packet is received.
-void CommsPortUART::parseByte(char b) {
+*/
+ void CommsPortUART::parseByte(char b) {
     if (b == COMMS_PACKET_START) {
         // Start of a new packet
         pktBufferLength = 0;

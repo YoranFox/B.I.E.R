@@ -95,11 +95,11 @@ protected:
     //Transfers data from hardware RX buffer to software RX buffer.
     void receive();
 
-    //Pop a byte from the receive buffer. Number of bytes available can
+    //Pop a byte from the software receive buffer. Number of bytes available can
     //be read from rxBufferLength.
     int rxPop();
 
-    //Function that processes the recieved packet.
+    //Function that processes the received packet.
     //Should be something in robot struct probably
     void rxPacket(char *data, int length);
 

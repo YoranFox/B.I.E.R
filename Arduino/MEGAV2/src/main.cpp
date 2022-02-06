@@ -5,6 +5,7 @@
 #include "Communication.h"
 
 CommsPortUART uart_obj;
+CmdProcessor cmd_processor;
 
 const int ledPin =  LED_BUILTIN;// the number of the LED pin
 uint8_t ledState = 0;             // ledState used to set the LED
