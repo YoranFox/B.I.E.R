@@ -14,7 +14,7 @@ uint8_t ledStateCounter = 0;       //internal heartbeat counter
 
 
 void setup_system_timer5_interrupt() {
-    //NOTE the workings of PWM pin 44, 45 and 46 have been comprimised
+    //WARNING the workings of PWM pin 44, 45 and 46 have been comprimised
     cli();//stop interrupts
 
     //set timer1 interrupt at 100hz
@@ -56,7 +56,7 @@ void heart_beat_tick() {
 }
 
 void system_tick() {
-    Magneto_HMC5883_tick();
+    //Magneto_HMC5883_tick();
     robot_tick();
     heart_beat_tick();
     uart_obj.print_rx_state();
@@ -65,7 +65,7 @@ void system_tick() {
 
 
 void system_update(){
-    Magneto_HMC5883_update();
+    //Magneto_HMC5883_update();
     robot_update();
     uart_obj.update();
     //Serial.println("loop");
@@ -77,7 +77,7 @@ void setup(void) {
     Serial.begin(115200);
 
     //sensors and robot initialisation
-    Magneto_HMC5883_init();
+    //Magneto_HMC5883_init();
     robot_init();
 
     //interrupt routine

@@ -21,6 +21,6 @@ void CommandProcessor::distribute_received_command(char *data, int length) {
     }
 }
 
-void new_motor_speed(int16_t speed){
+void CommandProcessor::new_motor_speed(int16_t speed){
     Serial.println(speed);
 }
