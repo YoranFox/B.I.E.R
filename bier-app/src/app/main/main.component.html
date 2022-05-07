@@ -1,9 +1,0 @@
-<div class="container-fluid full-height" id="main-page">
-    <app-top-nav></app-top-nav>
-    <div id="content">
-        <div style="height: 100%" [@mainRouteAnimations]="prepareRoute(outlet)" >
-            <router-outlet name="main-page" #outlet="outlet"></router-outlet>
-          </div>
-    </div>
-    <app-bottom-nav></app-bottom-nav>
-</div>

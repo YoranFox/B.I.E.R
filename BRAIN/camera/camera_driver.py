@@ -1,8 +1,6 @@
 import cv2
 import multiprocessing
 from camera.qr_detection.qrdetector import QrDetector
-import math
-from datetime import datetime
 from multiprocessing import Process
 import time
 
@@ -30,7 +28,6 @@ def start_camera(conn, camera):
                 
 
             if(len(solutions) != 0):
-
                 conn.send(['solutions', solutions, time.time() * 1000])
             
             if(stop_time < time.time() * 1000):

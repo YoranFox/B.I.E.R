@@ -8,6 +8,7 @@ volatile int json_orientation = 0;
 volatile int json_distance_estimate = 0; 
 int send_system_information_counter = 0;
 int * send_system_information_counter_pt = &send_system_information_counter;
+char send_system_information_key = 'S';
 
 /**
  * Sending the information to the Raspberry Pi using the JSON library
@@ -15,7 +16,7 @@ int * send_system_information_counter_pt = &send_system_information_counter;
  * @param flag:  Is there new information to send?
  */
 void Send_System_Information(int debug, int* counter){
-  int send_every_x_ticks = 1000;
+  int send_every_x_ticks = 500;
   
   if (*counter < send_every_x_ticks){
     //Serial.println("counter:");
@@ -27,9 +28,9 @@ void Send_System_Information(int debug, int* counter){
     // Values we want to transmit 
     // Print the values on the "debug" serial port
     Serial.print("Orientation = ");
-    Serial.println(orientation);
-    Serial.print("Distance_estimate = ");
-    Serial.println(distance_estimate);
+//    Serial.println(orientation);
+//    Serial.print("Distance_estimate = ");
+//    Serial.println(distance_estimate);
     Serial.println("---");
     }
     // Create the JSON document
@@ -38,6 +39,7 @@ void Send_System_Information(int debug, int* counter){
     Sys_information_send_doc["Distance_estimate"] = json_distance_estimate;
   
     // Send the JSON document over the "link" serial port
+    Serial.print(send_system_information_key);
     serializeJson(Sys_information_send_doc, Serial);
     Serial.println();
     *counter = 0;
@@ -57,7 +59,7 @@ void Recieve_System_Information(){
     StaticJsonDocument<300> Sys_information_recieve_doc;
 
     // Read the JSON document from the "link" serial port
-    DeserializationError err = deserializeJson(Sys_information_recieve_doc, linkSerial);
+    DeserializationError err = deserializeJson(Sys_information_recieve_doc, Serial);
 
     if (err == DeserializationError::Ok) 
     {
@@ -75,7 +77,7 @@ void Recieve_System_Information(){
       Serial.println(err.c_str());
   
       // Flush all bytes in the serial port buffer
-      while (linkSerial.available() > 0)
+      while (Serial.available() > 0)
         Serial.read();
     }
   }
@@ -105,7 +107,7 @@ void sys_update(){
 void setup() {
   // Initialize "debug" serial port
   // The data rate must be much higher than the "link" serial port
-  Serial.begin(115200);
+  Serial.begin(9600);
   while (!Serial) continue;
 
   //timer one settings

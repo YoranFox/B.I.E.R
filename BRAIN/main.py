@@ -1,5 +1,5 @@
 import time
-
+import logging
 from location_service import location_service
 from communication.communication_driver import CommunicationDriver
 from camera.camera_driver import CameraDriver
@@ -17,6 +17,30 @@ id_locations = {}
 params_fetched = False
 max_delta_time = 100
 
+camera = CameraDriver()
+communication = CommunicationDriver()
+
+calibrating = False
+last_location_update = time.time()
+
+
+# create logger
+logger = logging.getLogger('simple_example')
+logger.setLevel(logging.DEBUG)
+
+# create console handler and set level to debug
+ch = logging.StreamHandler()
+ch.setLevel(logging.DEBUG)
+
+# create formatter
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+# add formatter to ch
+ch.setFormatter(formatter)
+
+# add ch to logger
+logger.addHandler(ch)
+
 def update_map(map):
     global map_last_update
     global id_lcoations
@@ -27,7 +51,7 @@ def update_map(map):
         id_locations[int(key)] = (int(coords[0]), int(coords[1]))
 
     map_last_update = map['last_update']
-    print(' [INFO] Updated map value')
+    logger.info('Updated map value')
 
 
 def main_loop():
@@ -113,14 +137,7 @@ def recalibrate():
             # TODO if No keep searching
 
 
-
-if __name__ == '__main__':
-
-    camera = CameraDriver()
-    communication = CommunicationDriver()
-
-    calibrating = False
-    last_location_update = time.time()
+def main():
 
     looper.append(camera.main_loop)
     looper.append(communication.main_loop)
@@ -129,6 +146,10 @@ if __name__ == '__main__':
     communication.init_api_conn()
 
     main_loop()
+
+
+if __name__ == '__main__':
+    main()
 
 
 

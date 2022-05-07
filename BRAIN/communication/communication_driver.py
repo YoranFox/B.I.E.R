@@ -1,3 +1,4 @@
+import logging
 from multiprocessing import Process
 import multiprocessing
 from arduino_serial import ArduinoSerial
@@ -133,7 +134,7 @@ class CommunicationDriver():
     # ARDUINO FUNCTIONS
 
     def init_arduino_conn(self, port='com3'):
-        print(' [INFO] Initializing the connection to arduino...')
+        Logger.info('Initializing the connection to arduino...')
         self.arduino_conn.send(['init', port])
 
     def request_state_arduino(self, value):
@@ -149,7 +150,7 @@ class CommunicationDriver():
 
     # API FUNCTIONS
     
-    def init_api_conn(self, url='localhost', port='8080'):
+    def init_api_conn(self, url='localhost', port='3000'):
         print(' [INFO] Initializing the connection to api...')
         self.api_conn.send(['init', url, port])
         self.api_conn.send(['map'])
