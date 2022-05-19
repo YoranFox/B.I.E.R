@@ -18,7 +18,7 @@ def main():
     logger.info('Initializing services')
     # init modules
     logger.info('Initializing modules')
-    arduinoConnection = ArduinoConnection()
+    arduinoConnection: ArduinoConnection = ArduinoConnection()
     visionModule = VisionModule()
     visionModule.setup_camera(0)
     # visionModule.setup_camera(1)
@@ -26,6 +26,7 @@ def main():
     logger.info('Initializing AI')
 
     while True:
+
         connection_method_mapper.loop_connections()
 
 if __name__ == '__main__':
