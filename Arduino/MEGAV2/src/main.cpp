@@ -59,7 +59,7 @@ void system_tick() {
     //Magneto_HMC5883_tick();
     robot_tick();
     heart_beat_tick();
-    uart_obj.print_rx_state();
+    //uart_obj.print_rx_state();
     //Serial.println("tick");
 }
 
@@ -67,7 +67,7 @@ void system_tick() {
 void system_update(){
     //Magneto_HMC5883_update();
     robot_update();
-    uart_obj.update();
+    //uart_obj.update();
     //Serial.println("loop");
 }
 

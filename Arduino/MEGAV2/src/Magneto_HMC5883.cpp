@@ -30,9 +30,9 @@ void displaySensorDetails(void)
  */
 void increment_magneto_timeout(){
     if (!request_new_heading) {
-        request_new_heading = timer_reset_upper_limit(1, 5, &heading_timeout_counter);
+        request_new_heading = timer_loop(1, 5, &heading_timeout_counter);
     }else{
-        bool temp = timer_reset_upper_limit(1, 5, &heading_timeout_counter);
+        bool temp = timer_loop(1, 5, &heading_timeout_counter);
         if (temp){
             Serial.println("Magnetometer request timeout detected no new data recieved in last 100 ms.");
             Magneto_HMC5883_init();

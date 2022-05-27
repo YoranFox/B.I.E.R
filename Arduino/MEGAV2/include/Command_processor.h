@@ -8,6 +8,7 @@
 
 //List of all commands and their IDs
 #define COMMAND_SET_NEW_SPEED 0x01  //id,int16_t
+#define COMMAND_SET_NEW_ANGLE 0x02  // 
 
 
 class CommandProcessor {
