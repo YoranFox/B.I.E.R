@@ -4,7 +4,7 @@
 
 
 //define in headerfile
-volatile int json_orientation = 0;
+volatile int json_rotation = 0;
 volatile int json_distance_estimate = 0; 
 int send_system_information_counter = 0;
 int * send_system_information_counter_pt = &send_system_information_counter;
@@ -27,17 +27,18 @@ void Send_System_Information(int debug, int* counter){
     if (debug){
     // Values we want to transmit 
     // Print the values on the "debug" serial port
-    Serial.print("Orientation = ");
-//    Serial.println(orientation);
+    Serial.print("rotation = ");
+//    Serial.println(rotation);
 //    Serial.print("Distance_estimate = ");
 //    Serial.println(distance_estimate);
     Serial.println("---");
     }
     // Create the JSON document
     StaticJsonDocument<200> Sys_information_send_doc;
-    Sys_information_send_doc["Orientation"] = json_orientation;
+    Sys_information_send_doc["rotation"] = json_rotation;
     Sys_information_send_doc["Distance_estimate"] = json_distance_estimate;
-  
+    Sys_information_send_doc["last_update"] = json_distance_estimate;
+    
     // Send the JSON document over the "link" serial port
     Serial.print(send_system_information_key);
     serializeJson(Sys_information_send_doc, Serial);
@@ -65,8 +66,8 @@ void Recieve_System_Information(){
     {
       // Print the values
       // (we must use as<T>() to resolve the ambiguity)
-      Serial.print("Orientation = ");
-      Serial.println(Sys_information_recieve_doc["Orientation"].as<int>());
+      Serial.print("rotation = ");
+      Serial.println(Sys_information_recieve_doc["rotation"].as<int>());
       Serial.print("Distance_estimate = ");
       Serial.println(Sys_information_recieve_doc["Distance_estimate"].as<int>());
     } 

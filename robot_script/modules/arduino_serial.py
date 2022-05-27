@@ -1,27 +1,32 @@
+import json
 import logging
 import os
 import time
 import serial
 
-from connection_method_mapper import add_function
 from configure_logging import configure_logging
+from modules import connection_method_mapper
 
 
 fileName = os.path.basename(os.path.realpath(__file__))
 logger = logging.getLogger(fileName.split(".")[0])
 
 arduino = None
+conn = None
 
 RECIEVE_SYSTEM_INFORMATION_KEY = "S"
 WRITE_SYSTEM_INFORMATION_KEY = "W"
 
+ARDUINO_READY_KEY = 'arduino_ready'
+
 class ArduinoSerial:
 
-    connected = False
-
     def __init__(self, port):
+        self.connected = False
+        self.ready = False
         try:
             self.arduino = serial.Serial(port=port, baudrate=9600, timeout=.1)
+            self.connected = True
         except serial.SerialException:
             logger.error('Could not open port %s', port)
             pass
@@ -63,7 +68,7 @@ class ArduinoSerial:
             if(handshake_message == ''):
                 raise serial.SerialTimeoutException('Handshake 2')
 
-            self.connected = True
+            self.ready = True
             # Print the handshake message, if desired
             logger.debug("Handshake message: " + handshake_message.decode()[:-1])
 
@@ -75,6 +80,7 @@ class ArduinoSerial:
             pass
         # Reset the timeout
         arduino.timeout = timeout
+        return self.ready
 
 
     # Check if arduino has new data
@@ -90,25 +96,43 @@ class ArduinoSerial:
         self.arduino.write(data)
 
 
-def start_serial(conn, port):
+def start_serial(c, port):
+    global conn
+    global arduino
+    conn = c
     configure_logging()
     logger.info('Serial initializing')
     logger.debug('Arduino on port: %s', port)
-    alive = True
+    alive = False
+    counter = 0
+    arduino = None
+    while arduino == None or not arduino.connected:
+        if(counter > 4):
+            logger.error('Arduino connection error: Max retry reached')
+            return
 
-    arduino = ArduinoSerial(port)
+        logger.debug('Trying to create arduino connection (%i)', counter)
+        arduino = ArduinoSerial(port)
+        if(not arduino.connected):
+            counter += 1
+            time.sleep(2)
+
     arduino.confirm_connection()
 
-    add_function(conn, write_arduino_state, 'write_arduino_state')
-
-    mapped_responses = {
-        RECIEVE_SYSTEM_INFORMATION_KEY: lambda line : conn.send(['recieve_arduino_state', [line]])
-    }
-
-    if(not arduino.connected):
+    if(not arduino.ready):
         return
 
+    connection_method_mapper.add_function(conn, write_arduino_state, 'write_arduino_state')
+
+    mapped_responses = {
+        RECIEVE_SYSTEM_INFORMATION_KEY: lambda line : recieve_arudino_state(line)
+    }
+
+    alive = True
+
+    conn.send([ARDUINO_READY_KEY])
     while alive:
+        connection_method_mapper.loop_connections()
         if(arduino.hasData()):
             line = arduino.read()
             line = line.decode()
@@ -117,6 +141,12 @@ def start_serial(conn, port):
             mapped_responses[line[0]](line[1:-1])
 
 
+def recieve_arudino_state(data):
+    #Remove unicode typing
+    arduino_state_unicode = json.loads(data)
+    arduino_state = { k.encode('ascii', 'ignore'): v for k, v in arduino_state_unicode.items() }
+    arduino_state['last_update'] = time.time()
+    conn.send(['recieve_arduino_state', [arduino_state]])
 
 def write_arduino_state(state):
     arduino.write(WRITE_SYSTEM_INFORMATION_KEY + state)

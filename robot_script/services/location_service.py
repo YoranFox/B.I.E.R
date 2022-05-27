@@ -1,19 +1,19 @@
 height_irl_qr = 50
 width_irl_qr = 50
-focal_length = 4.76
+focal_length = 4.76 
 sensor_height = 6
 
 import math
 
-
 def calculate_angle_correction(rect, pic_width, distance):
+    print(rect)
 
     delta_px_center = (rect[0][0] + (rect[1][0] - rect[0][0]) / 2) - (pic_width / 2)
     delta_mm_center = (width_irl_qr / (rect[1][1] - rect[0][1])) * delta_px_center
-    angle_multiplier = 1
+    angle_multiplier = -1
     if delta_mm_center < 0:
         delta_mm_center = delta_mm_center * -1
-        angle_multiplier = -1
+        angle_multiplier = 1
 
     c = (0, 0)
     a = (0, delta_mm_center)
@@ -43,7 +43,6 @@ def add_angle(angle1, angle2):
     else:
         return new_angle
 
-# this might be better to calculate outside this script and only give back camera_correction and distance per qr
 def calculate_delta_from_shape(rect, shape, robot_rotation):
     pic_height, pic_width, bands = shape
     distance = calculate_distance(rect[0][1] - rect[1][1], pic_height)
@@ -91,8 +90,8 @@ def calculate_delta_from_shape(rect, shape, robot_rotation):
 
 def calculate_location(delta_from_qr, qr_position):
     location_robot = (
-        delta_from_qr[0] + qr_position[0],
-        delta_from_qr(1) + qr_position[1],
+        int(delta_from_qr[0] + qr_position[0]),
+        int(delta_from_qr[1] + qr_position[1]),
     )
 
     return location_robot

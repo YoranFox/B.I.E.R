@@ -11,28 +11,31 @@ from configure_logging import configure_logging
 fileName = os.path.basename(os.path.realpath(__file__))
 logger = logging.getLogger(fileName.split(".")[0])
 
-class VisionModule:
+last_solutions = None
+last_update = None
+shape = None
+process = None
 
-    last_solutions = (0, 0)
-    last_update = None
+def setup_camera(camera_number=0):
+    global process
+    conn, child_conn = multiprocessing.Pipe()
+    add_function(conn, set_solutions, 'solutions')
+    add_function(conn, set_shape, 'shape')
+    process = multiprocessing.Process(name='Camera ' + str(camera_number), target=start_camera, args=(child_conn, camera_number))
+    process.start()
 
-    def __init__(self):
-        logger.info('Initializing vision module')
-        
+def get_last_solutions():
+    return last_solutions
 
-    def setup_camera(self, camera_number=0):
-        self.conn, child_conn = multiprocessing.Pipe()
-        add_function(self.conn, self.set_solutions, 'solutions')
-        self.process =  multiprocessing.Process(name='Camera ' + str(camera_number), target=start_camera, args=(child_conn, camera_number))
-        self.process.start()
+def set_solutions(solutions, timestamp):
+    global last_solutions
+    global last_update
+    last_solutions = solutions
+    last_update = timestamp
 
-    def get_last_solutions(self):
-        return self.last_solutions
-
-    def set_solutions(self, solutions, timestamp):
-        self.last_solutions = solutions
-        self.last_update = timestamp
-
+def set_shape(s):
+    global shape
+    shape = s
 
 def start_camera(conn, camera_number):
     configure_logging()
@@ -49,8 +52,15 @@ def start_camera(conn, camera_number):
     
     if not cap.isOpened():
         logger.error('Camera %s cannot be opened', camera_number)
+        return
 
+    # get the shape to send to module
+    ret, frame = cap.read()
+    if not ret:
+        logger.warn("Can't receive frame (stream end?). Exiting ...")
+        return
 
+    conn.send(['shape', [frame.shape]])
 
     while True:
         ret, frame = cap.read()
@@ -95,8 +105,12 @@ def check_qr(strategy, frame):
 
     return solutions
 
+def on_shutdown():
+    global process
+    process.terminate()
+
 def main():
-    visionModule = VisionModule()
+    setup_camera()
 
 if __name__ == '__main__':
     configure_logging()
