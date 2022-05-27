@@ -30,12 +30,11 @@ motor m4 = {4, MOTOR4PIN1, MOTOR4PIN2, MOTOR4SPEEDPIN, 0, Stop};
 //     motor* m3;
 //     motor* m4;
 robot r = {0.06, 0.25, 0.15,
-           0, 0, 100, &m1,&m2,&m3,&m4};
+           50, 0, 100, &m1,&m2,&m3,&m4};
 
 void get_motor_info(motor *m){
     Serial.print("Initialisation of motor: "); Serial.print(m->id); Serial.print("\n");
     Serial.println("Write motor info here...");
-
 }
 
 /**
@@ -149,15 +148,15 @@ void set_motor_speed(motor* m){
 }
 void set_motor_direction(motor* m){
     if (m->direc == Reverse){ //miss andersom
-        Serial.println("Motor set to Reverse");
+        // Serial.println("Motor set to Reverse");
         digitalWrite(m->pin_1, HIGH);
         digitalWrite(m->pin_2, LOW);
     }else if (m->direc == Forward){
-        Serial.println("Motor set to Forward");
+        // Serial.println("Motor set to Forward");
         digitalWrite(m->pin_1, LOW);
         digitalWrite(m->pin_2, HIGH);
     }else if (m->direc == Stop){
-        Serial.println("Motor set to Stop");
+        // Serial.println("Motor set to Stop");
         digitalWrite(m->pin_1, LOW);
         digitalWrite(m->pin_2, LOW);
     }else{
@@ -166,7 +165,7 @@ void set_motor_direction(motor* m){
 }
 
 void update_motors(){
-    Serial.println("updating motor speeds");
+    //Serial.println("updating motor speeds");
     set_motor_speed(r.m1);
     set_motor_direction(r.m1);
     set_motor_speed(r.m2);
@@ -185,7 +184,7 @@ void robot_tick(){
 void robot_update() {
     if (request_new_kinematics) {
         //Disable interrupts here,
-        inverse_kinematics(1, &r);
+        inverse_kinematics(0, &r);
         request_new_kinematics = false;
         update_motors();
         //enable interrupts here
