@@ -16,7 +16,7 @@ logger = logging.getLogger(fileName.split(".")[0])
 robot_active = False
 
 def main():
-    init_succesfull = robot.init()
+    init_succesfull = robot.init(arduino_port="/dev/ttyACM0")
     if(init_succesfull):
         logger.info('Robot succesfully initialized Beep Boop')
         robot.run()

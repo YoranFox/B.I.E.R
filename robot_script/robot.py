@@ -15,8 +15,6 @@ from modules.ai_module import order_state
 fileName = os.path.basename(os.path.realpath(__file__))
 logger = logging.getLogger(fileName.split(".")[0])
 
-arduino_port = 'COM3'
-
 @unique
 class RobotState(Enum):
     IDLE = 0,
@@ -42,7 +40,7 @@ moving_object = None
 
 fridge_location = Location(100, 100)
 
-def init():
+def init(arduino_port = "COM3"):
     """
     Initializes all the necesary modules that are used
     Returns True if is succesfull
@@ -59,7 +57,7 @@ def init():
 
     # Initialize all the modules
     am.create_arduino_connection(arduino_port)
-    vm.setup_camera(0)
+    vm.setup_camera(2)
     sm.create_socket('localhost', 3000)
 
     # init AI
