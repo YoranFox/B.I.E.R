@@ -124,33 +124,7 @@ def idle_state():
 def order_state():
     global current_action_type
 
-    # Start of order
-    if(current_action_type == ActionType.NONE):
-        logger.info('Performing magical journey to get bier')
-        move_to_location(fridge_location)
 
-    if(current_action_type == ActionType.MOVING):
-        if(moving_done):
-            if(not has_beer):
-                open_fridge()
-            else:
-                wait_for_pickup()
-
-    if(current_action_type == ActionType.OPEN_FRIDGE):
-        if(fridge_open):
-            pick_beer(order.bier_id)
-
-    if(current_action_type == ActionType.PICK_BEER):
-        if(has_beer):
-            close_fridge()
-    
-    if(current_action_type == ActionType.CLOSE_FRIDGE):
-        if(not fridge_open):
-            move_to_location(order.location)
-
-    if(current_action_type == ActionType.WAIT_FOR_PICKUP):
-        if(not has_beer):
-            current_action_type = ActionType.NONE
 
 
 def move_to_location(location):

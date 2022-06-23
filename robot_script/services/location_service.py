@@ -6,7 +6,6 @@ sensor_height = 6
 import math
 
 def calculate_angle_correction(rect, pic_width, distance):
-    print(rect)
 
     delta_px_center = (rect[0][0] + (rect[1][0] - rect[0][0]) / 2) - (pic_width / 2)
     delta_mm_center = (width_irl_qr / (rect[1][1] - rect[0][1])) * delta_px_center

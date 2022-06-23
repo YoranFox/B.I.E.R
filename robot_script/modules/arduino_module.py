@@ -4,8 +4,11 @@ import multiprocessing
 import os
 from connection_method_mapper import add_function
 from arduino_serial import start_serial
-from configure_logging import configure_logging
 from modules.arduino_serial import ARDUINO_READY_KEY
+from modules import connection_method_mapper
+from modules.arduino_serial import WRITE_INSTRUCTIONS_KEY
+from robot_instructions import RobotInstructions
+from modules.arduino_serial import RECIEVE_SYSTEM_INFORMATION_KEY
 
 fileName = os.path.basename(os.path.realpath(__file__))
 logger = logging.getLogger(fileName.split(".")[0])
@@ -22,7 +25,7 @@ class ArduinoConnection:
 
         # Setup process for reading the serial port
         self.conn, child_conn = multiprocessing.Pipe()
-        add_function(self.conn, self.recieve_arduino_state, 'recieve_arduino_state')
+        add_function(self.conn, self.recieve_arduino_state, RECIEVE_SYSTEM_INFORMATION_KEY)
         add_function(self.conn, self.on_arduino_ready, ARDUINO_READY_KEY)
         self.process = multiprocessing.Process(name='Serial reader', target=start_serial, args=(child_conn, port))
         self.process.start()
@@ -34,33 +37,29 @@ class ArduinoConnection:
     def is_arduino_ready(self):
         return self.arduino_ready
 
-    def write_arduino_state(self, json):
-        self.conn.send(['write_arduino_state', [json]])
+    def write_instructions(self, instructions):
+        # type: (RobotInstructions) -> None
+        connection_method_mapper.send_via_conn(self.conn, WRITE_INSTRUCTIONS_KEY, [instructions])
 
     def recieve_arduino_state(self, json_state):
         global arduino_state
         arduino_state = json_state
 
     def __exit__(self):
+        connection_method_mapper.remove_connection(self.conn)
         self.process.terminate()
-        self.conn.close()
         del self.conn
         logger.warn('Connection with arduino aborted')
 
 
-def create_arduino_connection():
+def create_arduino_connection(port):
     global connection
-    connection = ArduinoConnection()
+    connection = ArduinoConnection(port)
 
-def on_shutdown():
+def reset():
     global connection
-    connection.__exit__()
-    del connection
-
-def main():
-    com = raw_input("Enter com port (example: com3): ")
-    arduino = ArduinoConnection(port=com)
-
-if __name__ == '__main__':
-    configure_logging()
-    main()
+    global arduino_state
+    if(connection):
+        connection.__exit__()
+        del connection
+        del arduino_state

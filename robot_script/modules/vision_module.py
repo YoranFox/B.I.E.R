@@ -7,6 +7,7 @@ import cv2 as cv
 
 from detection_strategies.detect_aruco import DetectAruco
 from configure_logging import configure_logging
+from modules import connection_method_mapper
 
 fileName = os.path.basename(os.path.realpath(__file__))
 logger = logging.getLogger(fileName.split(".")[0])
@@ -105,13 +106,9 @@ def check_qr(strategy, frame):
 
     return solutions
 
-def on_shutdown():
+def reset():
     global process
+    if(process == None):
+        return
     process.terminate()
-
-def main():
-    setup_camera()
-
-if __name__ == '__main__':
-    configure_logging()
-    main()
+    del process

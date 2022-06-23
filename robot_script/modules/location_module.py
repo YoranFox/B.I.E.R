@@ -5,6 +5,7 @@ import os
 import time
 from cv2 import FILLED, log
 import numpy as np
+from robot_instructions import RobotInstructions
 from services import location_service
 import cv2 as cv
 
@@ -123,3 +124,13 @@ def draw_solutions(all_solutions, current_solutions, calculated_locations):
 
     if cv.waitKey(1) == ord('q'):
         return
+
+class MovingObject:
+
+    def __init__(self, target_location, rotation=None, on_done=None,):
+        self.target_location = target_location
+        self.on_done = on_done
+        self.rotation = rotation
+    
+    def set_on_done(self, on_done):
+        self.on_done = on_done

@@ -24,7 +24,9 @@ def loop_connections():
         try:
         # data available
             if(conn.poll()):
+                
                 data = conn.recv()
+                # logger.debug('data %s', data)
                 function = mapped_functions[conn][data[0]]
                 args = []
                 if(len(data) > 1):
@@ -43,7 +45,7 @@ def loop_connections():
     for conn in to_delete:
         mapped_functions.pop(conn)
 
-def send_via_conn(conn, command, args):
+def send_via_conn(conn, command, args=[]):
     """
     Method to call a function at the other connections end,
 

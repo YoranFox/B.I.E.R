@@ -1,13 +1,11 @@
 import {
   ExecutionContext,
-  Inject,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
 import { IS_PUBLIC_KEY } from 'src/decorators/public.decorator';
-import { SessionsService } from 'src/sessions/sessions.service';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
@@ -28,15 +26,11 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     return super.canActivate(context);
   }
 
-  handleRequest(err, session, info: Error) {
-    if (err || info || !session) {
+  handleRequest(err, user, info: Error) {
+    if (err || info || !user) {
       throw new UnauthorizedException('Invalid authentication');
     }
 
-    if (session.code && !session.code.active) {
-      throw new UnauthorizedException('Code expired');
-    }
-
-    return session;
+    return user;
   }
 }

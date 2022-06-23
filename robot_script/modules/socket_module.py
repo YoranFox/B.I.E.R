@@ -9,6 +9,9 @@ from modules import connection_method_mapper
 from modules import ai_module
 from modules.ai_module import RobotState
 
+import robot
+from order import Order
+
 fileName = os.path.basename(os.path.realpath(__file__))
 logger = logging.getLogger(fileName.split(".")[0])
 
@@ -28,6 +31,7 @@ ROBOT_ASLEEP_KEY = 'robot_asleep'
 RECIEVE_ORDER_KEY = 'order'
 RECIEVE_SHUTDOWN_KEY = 'shutdown_robot'
 RECIEVE_ACTIVATE_ROBOT_KEY = 'activate_robot'
+RECIEVE_MOTOR_INSTRUCTIONS = 'instructions_motor'
 SOCKET_READY_KEY = 'socket_ready'
 SET_SOCKET_SLEEP_MODE_KEY = 'set_sleep_mode'
 SET_SOCKET_ACTIVE_MODE_KEY = 'set_active_mode'
@@ -35,10 +39,8 @@ SET_SOCKET_ACTIVE_MODE_KEY = 'set_active_mode'
 ORDER_DENIED_KEY = 'order_denied'
 ORDER_ACCEPTED_KEY = 'order_accepted'
 
-shutdown_robot_function = None
-startup_function = None
-
 conn = None
+process = None
 
 class SocketIOHandShakeError(Exception):
     """
@@ -143,14 +145,14 @@ def socket_emit_command(key):
 
 def create_socket(ip, port):
     global conn
+    global process
     # Setup process for reading the serial port
     conn, child_conn = multiprocessing.Pipe()
 
     # Add all public functions in process
     connection_method_mapper.add_function(conn, on_recieve_order, RECIEVE_ORDER_KEY)
-    connection_method_mapper.add_function(conn, on_recieve_shutdown, RECIEVE_SHUTDOWN_KEY)
+    connection_method_mapper.add_function(conn, on_recieve_motor_instructions, RECIEVE_MOTOR_INSTRUCTIONS)
     connection_method_mapper.add_function(conn, on_socket_ready, SOCKET_READY_KEY)
-    connection_method_mapper.add_function(conn, on_activate_robot, RECIEVE_ACTIVATE_ROBOT_KEY)
 
     process_name = 'SocketProcess'
     process =  multiprocessing.Process(name=process_name, target=start_socket, args=(child_conn, ip, port))
@@ -170,7 +172,7 @@ def start_socket(conn, ip, port):
     socket.setup_socket_handler_via_conn(RECIEVE_ORDER_KEY)
     socket.setup_socket_handler_via_conn(RECIEVE_SHUTDOWN_KEY)
     socket.setup_socket_handler_via_conn(SOCKET_READY_KEY)
-    socket.setup_socket_handler_via_conn(RECIEVE_ACTIVATE_ROBOT_KEY)
+    socket.setup_socket_handler_via_conn(RECIEVE_MOTOR_INSTRUCTIONS)
 
     # Map functions to be accessible from the process to main
     connection_method_mapper.add_function(conn, socket.send_command_to_socket, SEND_COMMAND_TO_SOCKET_KEY)
@@ -181,36 +183,34 @@ def start_socket(conn, ip, port):
 
 def on_recieve_order(order):
     logger.debug('Recieved new action')
-    print(order)
     if(ai_module.order != None):
         socket_emit_command(ORDER_DENIED_KEY)
         return
 
     # Map order
-
-    order = {
-        "location": (order.locationX, order.locationY),
-        "bier_id": order.bierId
-    }    
-    ai_module.order = order
-    ai_module.robot_state = RobotState.ORDER
+    order = Order((order.locationX, order.locationY), order.bierId)
+    robot.start_order(order)
 
     socket_emit_command(ORDER_ACCEPTED_KEY)
-       
-def on_recieve_shutdown():
-    logger.debug('Shutdown robot')
-    shutdown_robot_function()
 
+def on_recieve_motor_instructions(i):
+    robot.robot_instructions.set_direction(i.direction)
+    robot.robot_instructions.set_move_speed(i.move_speed)
+    robot.robot_instructions.set_rotation_speed(i.rotation_speed)
 
 def on_socket_ready():
     global socket_alive
     logger.debug('Socket ready check complete')
     socket_alive = True
 
-def on_shutdown():
-    connection_method_mapper.send_via_conn(conn, SET_SOCKET_SLEEP_MODE_KEY, [])
-    
-def on_activate_robot():
-    if(startup_function != None):
-        connection_method_mapper.send_via_conn(conn, SET_SOCKET_ACTIVE_MODE_KEY, [])
-        startup_function()
+def on_sleep():
+    connection_method_mapper.send_via_conn(conn, SET_SOCKET_SLEEP_MODE_KEY)
+
+def reset():
+    global process
+    global conn
+    if(process != None):
+        process.terminate()
+        connection_method_mapper.remove_connection(conn)
+        del process
+        del conn
