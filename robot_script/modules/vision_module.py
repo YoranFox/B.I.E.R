@@ -90,8 +90,8 @@ def start_camera(conn, camera_number):
 
             if(has_change):
                 logger.debug('Solutions changed sending to main thread - Count: %s', solutions_changed_count)
+                last_send = time()
                 conn.send(['solutions', [send_solutions, time()]])
-
         if cv.waitKey(1) == ord('q'):
             break
 

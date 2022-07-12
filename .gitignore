@@ -1,3 +1,4 @@
 *.pyc
 node_modules
 environment.dev.ts
+.env

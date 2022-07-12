@@ -19,12 +19,12 @@ logger = logging.getLogger(fileName.split(".")[0])
 
 qr_locations = {
     3: (1000, 1000),
-    1: (1300, 1000)
+    1: (1250, 1000)
 }
 location = None
 last_update = None
 
-SOLUTIONS_RATE = .01
+SOLUTIONS_RATE = .05
 SOLUTIONS_TIMEOUT_CUTOFF = .1
 
 last_used_arduino_state = None
@@ -57,9 +57,16 @@ def calculate_location():
     if(last_used_arduino_state and arduino_last_udpate == last_used_arduino_state['last_update']):
         return
 
+    
+
+
+    solutions = dict(filter(lambda elem: elem[0] in qr_locations.keys(), solutions.items()))
+
     old_solutions = solutions
+
     # Lets do a check on the time difference between the solution and arduino state
     solutions = dict(filter(lambda elem: time.time() - elem[1]['last_update'] < SOLUTIONS_TIMEOUT_CUTOFF, solutions.items()))
+
 
     if(len(solutions) == 0):
         return
@@ -68,9 +75,11 @@ def calculate_location():
 
     calculated_locations = []
 
+
     for qr_id in solutions:
         solution = solutions[qr_id]
         delta_location = location_service.calculate_delta_from_shape(solution['value'], vm.shape, rotation)
+
         qr_location = qr_locations[qr_id]
         calculated_locations.append((qr_id, location_service.calculate_location(delta_location, qr_location)))
 
@@ -81,9 +90,8 @@ def calculate_location():
 
     last_used_arduino_state = arduino_state
 
-    # Send to arduino
-    am.connection.write_arduino_state(json.dumps({'location': location}))
     draw_solutions(old_solutions, solutions, calculated_locations)
+
 
 
 def draw_solutions(all_solutions, current_solutions, calculated_locations):

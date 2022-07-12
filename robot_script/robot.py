@@ -40,7 +40,7 @@ moving_object = None
 
 fridge_location = Location(100, 100)
 
-def init(arduino_port = "COM3"):
+def init(arduino_port = "COM3", camera=0):
     """
     Initializes all the necesary modules that are used
     Returns True if is succesfull
@@ -57,7 +57,7 @@ def init(arduino_port = "COM3"):
 
     # Initialize all the modules
     am.create_arduino_connection(arduino_port)
-    vm.setup_camera(2)
+    vm.setup_camera(camera)
     sm.create_socket('localhost', 3000)
 
     # init AI
@@ -101,6 +101,7 @@ def run():
 
     while True:
         lm.calculate_location()
+
         connection_method_mapper.loop_connections()
 
         # Recalibrate if latest true location update is later than idk 1 sec

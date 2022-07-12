@@ -24,7 +24,6 @@ def loop_connections():
         try:
         # data available
             if(conn.poll()):
-                logger.debug('new data lol')
                 data = conn.recv()
                 # logger.debug('data %s', data)
                 function = mapped_functions[conn][data[0]]

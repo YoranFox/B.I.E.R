@@ -6,7 +6,7 @@
 
 //for the loop
 unsigned long previousMillis = 0; 
-const long interval = 100;
+const long interval = 500;
 
 //Magentometer
 Adafruit_HMC5883_Unified mag;
@@ -44,7 +44,6 @@ void Send_System_Information(int debug){
     StaticJsonDocument<200> Sys_information_send_doc;
     Sys_information_send_doc["rotation"] = json_rotation;
     Sys_information_send_doc["Distance_estimate"] = json_distance_estimate;
-    Sys_information_send_doc["last_update"] = json_distance_estimate;
     
     // Send the JSON document over the "link" serial port
     Serial.print(send_system_information_key);

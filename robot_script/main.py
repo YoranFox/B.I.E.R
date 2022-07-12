@@ -2,11 +2,11 @@
 import logging
 import os
 import logging.config
-import time
-from modules import arduino_module
-import cv2 as cv
 
-from modules import connection_method_mapper
+from dotenv import load_dotenv
+
+
+
 from configure_logging import configure_logging
 import robot
 
@@ -16,7 +16,7 @@ logger = logging.getLogger(fileName.split(".")[0])
 robot_active = False
 
 def main():
-    init_succesfull = robot.init(arduino_port="/dev/ttyACM0")
+    init_succesfull = robot.init(arduino_port=os.getenv('ARDUINO_COM'), camera=0)
     if(init_succesfull):
         logger.info('Robot succesfully initialized Beep Boop')
         robot.run()
@@ -24,6 +24,7 @@ def main():
 
 if __name__ == '__main__':
     configure_logging()
+    load_dotenv()
     main()
 
 
