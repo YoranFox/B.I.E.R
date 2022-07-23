@@ -1,4 +1,5 @@
 const express = require("express");
+var cors = require("cors");
 const bodyParser = require("body-parser");
 const app = express();
 const http = require("http");
@@ -10,6 +11,7 @@ const io = new Server(server, {
 
 // parse application/json
 app.use(bodyParser.json());
+app.use(cors());
 
 ROBOT_KEY = "superSecretKey";
 HANDSHAKE_KEY = "handshake";
@@ -26,7 +28,16 @@ currentAction = null;
 robot_sockets = {};
 
 app.get("/robots", async (req, res) => {
-  return res.send(Object.keys(robot_sockets));
+  const robots = Object.keys(robot_sockets);
+  return res.send(
+    robots.map((key) => {
+      const robot = robot_sockets[key];
+      return {
+        id: key,
+        status: robot.status,
+      };
+    })
+  );
 });
 
 app.post("/order", async (req, res) => {
@@ -40,24 +51,26 @@ app.post("/order", async (req, res) => {
   };
 
   robot_sockets[body.robot_id].emit(SEND_ACTION_KEY, action);
-
-  return res.send("OK");
+  res.body = {};
+  res.status(200).json({ status: "ok" });
 });
 
-app.post("/shutdown", async (req, res) => {
+app.post("/robots/shutdown", async (req, res) => {
   body = req.body;
 
-  robot_sockets[body.robot_id].emit(SEND_SHUTDOWN_KEY);
-
-  return res.send("OK");
+  console.log(`Shutting down robot with id ${body.robot_id}`);
+  robot_sockets[body.robot_id].socket.emit(SEND_SHUTDOWN_KEY);
+  robot_sockets[body.robot_id].status = "INACTIVE";
+  res.status(200).json({ status: "ok" });
 });
 
-app.post("/activate", async (req, res) => {
+app.post("/robots/activate", async (req, res) => {
   body = req.body;
+  console.log(`Activating robot with id ${body.robot_id}`);
+  robot_sockets[body.robot_id].socket.emit(SEND_ACTIVATE_KEY);
+  robot_sockets[body.robot_id].status = "ACTIVE";
 
-  robot_sockets[body.robot_id].emit(SEND_ACTIVATE_KEY);
-
-  return res.send("OK");
+  res.status(200).json({ status: "ok" });
 });
 
 io.on("connection", function (socket) {
@@ -72,7 +85,7 @@ io.on("connection", function (socket) {
 
   console.log(`robot ${params.robot_id} authenticated`);
 
-  robot_sockets[params.robot_id] = socket;
+  robot_sockets[params.robot_id] = { socket, status: "INACTIVE" };
 
   socket.on(HANDSHAKE_KEY, () => {
     console.log("handshake recieved");

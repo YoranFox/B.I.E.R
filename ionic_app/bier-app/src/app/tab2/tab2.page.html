@@ -1,0 +1,25 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Developer stuff
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Developer stuff</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-list>
+    <ion-item *ngFor="let robot of ($robots | async)">
+      <ion-label>{{robot.id}}: {{robot.status}}</ion-label><button *ngIf="robot.status === 'INACTIVE'"
+        (click)="activateRobot(robot.id)">ACTIVATE</button>
+      <button *ngIf="robot.status === 'ACTIVE'" (click)="shutdownRobot(robot.id)">SHUTDOWN</button>
+    </ion-item>
+  </ion-list>
+
+  <app-explore-container name="Tab 2 page"></app-explore-container>
+</ion-content>
